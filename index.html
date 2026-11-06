@@ -1,0 +1,1154 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline' https://cdn.jsdelivr.net; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src data: blob:; connect-src https://qayskluqsjpgvjorinnc.supabase.co; base-uri 'none'; form-action 'none'">
+<title>TrustVault</title>
+<script>(function(){var t=null;try{t=localStorage.getItem("tv_theme")}catch(e){}if(!t)t=window.matchMedia&&matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light";document.documentElement.setAttribute("data-theme",t)})()</script>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700&family=Inter:wght@400;500;600&display=swap">
+<style>
+:root{--paper:#F0F7FA;--card:#fff;--ink:#1A1D29;--muted:#6B7280;--line:#D1E3EB;--brand:#0B4F6C;--brand-ink:#fff;--brand-hover:#084059;--accent:#01BAEF;--amber:#F59E0B;--bad:#DC2626;--ok:#15803D;--side:#fff;--side-ink:#1A1D29;--soft:#E3EFF5;--shadow:0 1px 2px rgba(11,79,108,.06),0 8px 24px -12px rgba(11,79,108,.18)}
+:root[data-theme=dark]{--paper:#0A1F2E;--card:#10293A;--ink:#E6F0F5;--muted:#8FA9B7;--line:#1F3B4E;--brand:#01BAEF;--brand-ink:#06222F;--brand-hover:#4FD0F5;--bad:#F87171;--ok:#4ADE80;--side:#0D2433;--side-ink:#E6F0F5;--soft:#16354A;--shadow:0 8px 24px -12px rgba(0,0,0,.5)}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{margin:0;background:var(--paper);color:var(--ink);font:15px/1.6 Inter,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;-webkit-font-smoothing:antialiased}
+h1,h2,h3{font-family:Outfit,Inter,system-ui,sans-serif;font-weight:600;margin:0;letter-spacing:-.01em}
+button,input,select,textarea{font:inherit;color:inherit}
+input,select,textarea{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:9px 12px;max-width:100%;transition:border-color .15s,box-shadow .15s}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--brand);box-shadow:0 0 0 3px color-mix(in srgb,var(--brand) 18%,transparent)}
+a{color:var(--brand);font-weight:500}
+button:focus-visible{outline:2px solid var(--brand);outline-offset:2px}
+textarea{width:100%;min-height:150px;font:13px ui-monospace,Menlo,Consolas,monospace}
+.btn{border:1px solid var(--line);background:var(--card);border-radius:8px;padding:8px 16px;cursor:pointer;white-space:nowrap;font-weight:500;transition:all .15s}
+.btn:hover{border-color:var(--brand);transform:translateY(-1px)}
+.btn.pri{background:var(--brand);color:var(--brand-ink);border-color:var(--brand);font-weight:600;box-shadow:var(--shadow)}
+.btn.pri:hover{background:var(--brand-hover);border-color:var(--brand-hover)}
+.btn.warn{color:var(--bad);border-color:color-mix(in srgb,var(--bad) 35%,var(--line))}
+.btn.sm{padding:4px 12px;font-size:13px}
+.btn:disabled{opacity:.6;cursor:progress;transform:none}
+.app{display:grid;grid-template-columns:248px 1fr;min-height:100vh;min-height:100dvh}
+.side{background:var(--side);color:var(--side-ink);border-right:1px solid var(--line);padding:20px 14px;display:flex;flex-direction:column;gap:6px;position:sticky;top:0;height:100vh}
+.logo{display:flex;align-items:center;gap:10px;padding:0 8px 18px;font:600 20px Outfit,sans-serif;color:var(--brand)}
+.logo i{width:32px;height:32px;border-radius:10px;background:var(--brand);display:grid;place-items:center;color:var(--brand-ink);font:700 13px Inter,system-ui;font-style:normal}
+.nav{display:flex;flex-direction:column;gap:4px;flex:1}
+.nav button{display:flex;align-items:center;gap:11px;text-align:left;background:none;border:0;color:var(--muted);padding:10px 12px;border-radius:8px;cursor:pointer;font-weight:500;transition:background .15s,color .15s}
+.nav button:hover{background:var(--soft);color:var(--ink)}
+.nav button.on{background:var(--soft);color:var(--brand);font-weight:600}
+.ic{display:inline-grid;place-items:center;flex:none}.ic svg{width:19px;height:19px}
+.who{border-top:1px solid var(--line);padding:14px 8px 0;font-size:13px;color:var(--muted)}
+.who b{display:block;color:var(--ink);font-size:14px}
+.who .btn{margin-top:10px}
+.main{padding:32px clamp(16px,4vw,48px) 72px;max-width:1120px;width:100%}
+.head{margin-bottom:24px}.head h1{font-size:30px}.head p{margin:4px 0 0;color:var(--muted)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px;box-shadow:var(--shadow);margin-bottom:16px}
+.card h2{font-size:18px;margin-bottom:12px}
+.flash{border-radius:10px;padding:10px 14px;margin-bottom:16px;border:1px solid var(--line);background:var(--card);border-left:4px solid var(--ok)}
+.flash.denied{border-left-color:var(--bad)}.flash.invalid{border-left-color:var(--amber)}.flash b{margin-right:6px}
+.bar{display:flex;gap:10px;flex-wrap:wrap;align-items:flex-end}
+.fld{display:flex;flex-direction:column;gap:4px;font-size:12px;font-weight:500;color:var(--muted)}
+.bar input,.bar select,.bar .btn{height:40px}
+.list{display:flex;flex-direction:column;gap:10px}
+.doc{display:flex;align-items:center;gap:14px;text-align:left;width:100%;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px 16px;cursor:pointer;transition:all .18s}
+.doc:hover{border-color:var(--brand);transform:translateY(-2px);box-shadow:var(--shadow)}
+.doc-main{flex:1;min-width:0;display:flex;flex-direction:column}
+.doc-main strong{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.sub{color:var(--muted);font-size:13px}
+.ft{width:46px;height:46px;border-radius:12px;display:grid;place-items:center;font:700 11px Inter,system-ui;background:var(--soft);color:var(--brand);flex:none}
+.chip{display:inline-block;border-radius:999px;padding:2px 11px;font-size:12px;font-weight:500;background:var(--soft);color:var(--muted);white-space:nowrap}
+.chip.owner,.chip.ALLOWED{background:color-mix(in srgb,var(--ok) 15%,transparent);color:var(--ok)}
+.chip.edit{background:color-mix(in srgb,var(--amber) 22%,transparent);color:var(--ink)}
+.chip.DENIED,.chip.REJECTED{background:color-mix(in srgb,var(--bad) 14%,transparent);color:var(--bad)}
+.scrim{position:fixed;inset:0;background:rgba(10,31,46,.45);backdrop-filter:blur(2px);z-index:20}
+.drawer{position:fixed;top:0;right:0;bottom:0;width:min(580px,100vw);background:var(--paper);z-index:21;overflow-y:auto;padding:24px;box-shadow:-12px 0 40px rgba(10,31,46,.2);animation:slide .22s ease-out}
+@keyframes slide{from{transform:translateX(28px);opacity:0}}
+.drawer h2{font-size:22px;word-break:break-word}
+.kv{display:flex;flex-wrap:wrap;gap:6px 14px;color:var(--muted);font-size:13px;margin:8px 0 14px}
+.tw{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:13px}
+th,td{text-align:left;padding:9px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+th{color:var(--muted);font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:.06em}
+tbody tr:hover{background:color-mix(in srgb,var(--soft) 55%,transparent)}
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:14px;margin-bottom:18px}
+.tile{display:flex;align-items:center;gap:14px;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px;box-shadow:var(--shadow)}
+.tile i{width:44px;height:44px;border-radius:12px;display:grid;place-items:center;flex:none;font-style:normal;color:#fff}
+.tile.c0 i{background:var(--amber)}.tile.c1 i{background:var(--brand);color:var(--brand-ink)}.tile.c2 i{background:var(--accent)}.tile.c3 i{background:#8B5CF6}
+.tile b{font:600 26px/1.1 Outfit,sans-serif;display:block}.tile div span{color:var(--muted);font-size:12.5px}
+.seg{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px}
+.seg .btn.on{background:var(--brand);color:var(--brand-ink);border-color:var(--brand)}
+.cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
+.cols ul{margin:8px 0 0;padding-left:18px}.cols li{margin:4px 0}
+.no{color:var(--bad)}
+.gate{min-height:100vh;min-height:100dvh;display:grid;grid-template-columns:1.05fr 1fr}
+.gate-l{position:relative;overflow:hidden;background:linear-gradient(135deg,#F0F7FA,#E3EFF5 60%,#fff);padding:clamp(24px,5vw,64px);display:flex;flex-direction:column;justify-content:center;gap:20px}
+.gate-l::before,.gate-l::after{content:"";position:absolute;border-radius:50%;filter:blur(60px);opacity:.35;pointer-events:none;z-index:0}
+.gate-l::before{width:260px;height:260px;background:#01BAEF;top:-60px;left:-40px}
+.gate-l::after{width:300px;height:300px;background:#0B4F6C;bottom:-90px;right:-60px;opacity:.2}
+.gate-l>*{position:relative;z-index:1}
+.gate-l h1{font-size:clamp(32px,4.2vw,52px);line-height:1.1;color:#0B4F6C}
+.gate-l p{margin:0;max-width:46ch;color:#4B5563;font-size:17px}
+.gate-l ul{list-style:none;padding:0;margin:0;display:grid;gap:10px}
+.gate-l li{background:#fff;border:1px solid #D1E3EB;border-radius:14px;padding:12px 16px;color:#1A1D29;box-shadow:0 8px 24px -14px rgba(11,79,108,.25);border-left:4px solid #0B4F6C}
+.gate-l li:nth-child(2){border-left-color:#01BAEF}.gate-l li:nth-child(3){border-left-color:#20BF55}
+.gate-r{display:grid;place-items:center;padding:24px;background:var(--paper)}
+.gate-r .card{width:min(430px,100%);padding:28px}
+.stack{display:grid;gap:12px}
+pre.src{background:var(--soft);border-radius:12px;padding:12px;overflow:auto;max-height:560px;font:12.5px/1.45 ui-monospace,Menlo,Consolas,monospace}
+.empty{display:flex;flex-direction:column;align-items:center;gap:6px;text-align:center;color:var(--muted);padding:40px 16px;border:1px dashed var(--line);border-radius:16px;background:var(--card)}
+.empty b{color:var(--ink);font:600 17px Outfit,sans-serif}
+.empty .ic svg{width:34px;height:34px;color:var(--brand)}
+.setup{max-width:640px;margin:8vh auto;padding:0 16px}
+.setup code{background:var(--soft);border-radius:6px;padding:1px 6px}
+.toasts{position:fixed;right:16px;bottom:16px;display:grid;gap:8px;z-index:50;max-width:min(380px,calc(100vw - 32px))}
+.toast{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--ok);border-radius:10px;padding:11px 14px;box-shadow:0 12px 30px -10px rgba(10,31,46,.35);animation:pop .2s ease-out}
+.toast.denied{border-left-color:var(--bad)}.toast.invalid{border-left-color:var(--amber)}
+@keyframes pop{from{transform:translateY(8px);opacity:0}}
+body.busy::before{content:"";position:fixed;top:0;left:0;height:3px;width:40%;background:var(--accent);z-index:60;animation:bar 1s ease-in-out infinite}
+@keyframes bar{from{left:-40%}to{left:100%}}
+.skel-b{height:78px;background:linear-gradient(90deg,var(--soft),var(--card),var(--soft));background-size:200% 100%;animation:sh 1.2s linear infinite}
+@keyframes sh{to{background-position:-200% 0}}
+#root:empty::after{content:"";display:block;width:34px;height:34px;margin:30vh auto 0;border:3px solid var(--line);border-top-color:var(--brand);border-radius:50%;animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+@media(max-width:820px){
+ .app{grid-template-columns:1fr}
+ .side{position:static;height:auto;flex-direction:row;align-items:center;justify-content:space-between;padding:10px 14px;border-right:0;border-bottom:1px solid var(--line)}
+ .logo{padding:0}
+ .who{border:0;padding:0;display:flex;gap:10px;align-items:center}.who b{display:inline;font-size:13px}.who .btn{margin:0}
+ .nav{position:fixed;left:0;right:0;bottom:0;z-index:15;flex-direction:row;justify-content:space-around;gap:0;background:var(--side);border-top:1px solid var(--line);padding:6px 6px calc(6px + env(safe-area-inset-bottom));flex:none}
+ .nav button{flex:1;flex-direction:column;align-items:center;gap:2px;font-size:11px;padding:6px 8px;text-align:center}
+ .who span,.who br{display:none}.who b{white-space:nowrap;max-width:110px;overflow:hidden;text-overflow:ellipsis}
+ .bar{display:grid;grid-template-columns:1fr 1fr}.bar .fld:first-child{grid-column:1/-1}.bar input,.bar select,.bar .btn{width:100%}
+ .main{padding:20px 16px 96px}.head h1{font-size:24px}
+ .gate{grid-template-columns:1fr}.gate-l{padding:28px 20px}
+ .toasts{bottom:78px}.drawer{padding:18px}
+}
+[hidden]{display:none!important}
+.ask summary{cursor:pointer;font:600 17px Outfit,sans-serif;list-style:none}.ask summary::-webkit-details-marker{display:none}.ask[open] summary{margin-bottom:14px}
+.pill{margin-left:auto;background:var(--bad);color:#fff;border-radius:999px;font-size:11px;font-weight:600;min-width:20px;height:20px;padding:0 6px;display:inline-grid;place-items:center}
+.notice{display:flex;gap:12px;align-items:flex-start;border:1px solid color-mix(in srgb,var(--amber) 45%,var(--line));background:color-mix(in srgb,var(--amber) 12%,var(--card));border-radius:14px;padding:14px 16px;margin-bottom:16px}
+.notice.ok{border-color:var(--line);background:var(--card)}
+.notice .ic svg{width:22px;height:22px;color:var(--brand)}
+.notice b{display:block}.notice span{color:var(--muted);font-size:14px}
+.stack textarea{min-height:100px}.stack>.fld,.bar .fld{flex:1}
+.help{display:grid;grid-template-columns:minmax(270px,360px) 1fr;gap:16px;align-items:start}
+.help>div:first-child{display:grid;gap:10px;min-width:0}
+.tklist{display:grid;gap:8px;max-height:560px;overflow-y:auto;overflow-x:hidden}
+.tk{position:relative;display:flex;flex-direction:column;gap:6px;align-items:stretch;text-align:left;width:100%;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:11px 14px;cursor:pointer;transition:all .15s}
+.tk:hover{border-color:var(--brand)}.tk.on{border-color:var(--brand);box-shadow:0 0 0 2px color-mix(in srgb,var(--brand) 20%,transparent)}
+.tk-main{display:flex;flex-direction:column;min-width:0}.tk-main strong{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.tk-side{display:flex;flex-wrap:wrap;gap:6px}
+.dot{position:absolute;top:10px;left:5px;width:8px;height:8px;border-radius:50%;background:var(--accent)}
+.thread{margin:0}.th-head{display:flex;gap:12px;justify-content:space-between;align-items:flex-start;margin-bottom:14px}
+.th-head h2{font-size:19px;margin:0}
+.msgs{display:flex;flex-direction:column;gap:12px;min-height:160px;max-height:480px;overflow-y:auto;padding:4px 2px 12px}
+.msg{max-width:86%}.msg.me{align-self:flex-end}
+.who2{font-size:12px;font-weight:600;margin-bottom:3px}.who2 span{color:var(--muted);font-weight:400}
+.bubble{background:var(--soft);border-radius:14px 14px 14px 4px;padding:10px 14px;white-space:pre-wrap;word-break:break-word}
+.msg.me .bubble{background:var(--brand);color:var(--brand-ink);border-radius:14px 14px 4px 14px}
+.msg.me .who2{text-align:right}
+.reply{display:grid;gap:8px;border-top:1px solid var(--line);padding-top:12px}.reply textarea{min-height:110px;resize:vertical;font:15px/1.5 Inter,system-ui,sans-serif}.reply .btn{justify-self:end}
+.mem{display:flex;align-items:center;gap:12px;margin:0;flex-wrap:wrap}.mem-main{display:flex;flex-direction:column;flex:1;min-width:120px}
+.avatar{width:42px;height:42px;border-radius:50%;background:var(--soft);color:var(--brand);display:grid;place-items:center;font:600 17px Outfit,sans-serif;flex:none}
+@media(max-width:820px){.help{grid-template-columns:1fr}.msg{max-width:94%}}
+:root{--glow:0 0 0 1px rgba(1,186,239,.30),0 12px 32px -12px rgba(1,186,239,.38);--spot:rgba(1,186,239,.10)}
+:root[data-theme=dark]{--glow:0 0 0 1px rgba(1,186,239,.45),0 12px 38px -10px rgba(1,186,239,.50);--spot:rgba(1,186,239,.16)}
+body,.card,.side,.cmdk,.tile,.doc{transition:background-color .25s,color .25s,border-color .25s,box-shadow .25s,transform .2s}
+.card,.tile,.doc,.tk,.mem,.rw{position:relative}
+.card::before,.tile::before,.doc::before,.tk::before,.mem::before,.lg-sec::before{content:"";position:absolute;inset:0;border-radius:inherit;background:radial-gradient(240px circle at var(--mx,50%) var(--my,50%),var(--spot),transparent 65%);opacity:0;transition:opacity .25s;pointer-events:none}
+.card:hover::before,.tile:hover::before,.doc:hover::before,.tk:hover::before,.mem:hover::before,.lg-sec:hover::before{opacity:1}
+.card:not(.stack):not(.thread):hover,.tile:hover,.doc:hover,.tk:hover,.mem:hover,.lg-sec:hover{border-color:color-mix(in srgb,var(--accent) 60%,var(--line));box-shadow:var(--glow)}
+.btn.pri:hover{box-shadow:0 0 0 3px color-mix(in srgb,var(--accent) 25%,transparent),0 8px 24px -6px rgba(1,186,239,.55)}
+input:focus,select:focus,textarea:focus{border-color:var(--accent);box-shadow:0 0 0 3px color-mix(in srgb,var(--accent) 28%,transparent),0 0 18px -4px rgba(1,186,239,.5)}
+.ghost{background:none;border:0;border-radius:10px;width:36px;height:36px;display:inline-grid;place-items:center;color:var(--muted);cursor:pointer;position:relative;transition:all .15s;padding:0}
+.ghost:hover{background:var(--soft);color:var(--brand);box-shadow:0 0 18px -6px rgba(1,186,239,.6)}
+.av{display:inline-grid;place-items:center;border-radius:50%;background:linear-gradient(135deg,var(--a),var(--b));color:#fff;font-weight:600;flex:none;box-shadow:0 0 0 2px var(--card),0 4px 12px -4px var(--a)}
+.app{transition:grid-template-columns .25s ease}
+.app.mini{grid-template-columns:78px 1fr}
+.logo{justify-content:space-between}.logo .lt{flex:1}
+.nav button.on{box-shadow:inset 3px 0 0 var(--accent),0 0 24px -8px rgba(1,186,239,.55)}
+.nav button:hover{box-shadow:0 0 18px -8px rgba(1,186,239,.5)}
+.who{display:flex;align-items:center;gap:8px;font-size:13px}
+.who .wt{flex:1;min-width:0;display:flex;flex-direction:column;line-height:1.25}.who .wt b{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.app.mini .lt,.app.mini .nt,.app.mini .wt{display:none}
+.app.mini .logo{flex-direction:column;gap:8px;padding:0 0 14px}
+.app.mini .nav button{justify-content:center;position:relative;padding:11px 0}
+.app.mini .nav .pill{position:absolute;top:2px;right:8px;margin:0}
+.app.mini .who{flex-direction:column;padding-top:12px}
+.topbar{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:-10px 0 22px}
+.cmdk{display:flex;align-items:center;gap:10px;min-width:360px;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:9px 14px;color:var(--muted);cursor:pointer}
+.cmdk:hover{border-color:var(--accent);box-shadow:var(--glow)}.cmdk>span:not(.ic){flex:1;text-align:left;white-space:nowrap}.cmdk .ic{flex:none}
+kbd{font:600 11px Inter,system-ui,sans-serif;background:var(--soft);border:1px solid var(--line);border-bottom-width:2px;border-radius:6px;padding:2px 7px;color:var(--muted)}
+.tb-right{display:flex;align-items:center;gap:6px}
+.live{display:inline-flex;align-items:center;gap:7px;font-size:12px;color:var(--muted);margin-right:8px}
+.live i{width:8px;height:8px;border-radius:50%;background:#20BF55;animation:ping 2s infinite}
+@keyframes ping{0%{box-shadow:0 0 0 0 rgba(32,191,85,.6)}70%,100%{box-shadow:0 0 0 8px rgba(32,191,85,0)}}
+.bellwrap{position:relative}
+.bell.ring svg{animation:ring 3s ease-in-out infinite;transform-origin:50% 0}
+@keyframes ring{0%,86%,100%{transform:rotate(0)}89%{transform:rotate(14deg)}92%{transform:rotate(-12deg)}95%{transform:rotate(8deg)}}
+.bell .pill{position:absolute;top:-3px;right:-3px;margin:0}
+.dd{position:absolute;right:0;top:46px;width:370px;max-height:460px;overflow:auto;background:var(--card);border:1px solid var(--line);border-radius:14px;box-shadow:0 24px 60px -20px rgba(0,0,0,.45),var(--glow);z-index:30;animation:pop .18s ease-out}
+.dd h3{font-size:14px;padding:14px 16px 8px}
+.nrow{display:flex;gap:10px;align-items:flex-start;padding:10px 16px;border:0;border-top:1px solid var(--line);background:none;width:100%;text-align:left;cursor:pointer;color:inherit}
+.nrow:hover{background:var(--soft)}.nrow.static{cursor:default}.nrow.static:hover{background:none}
+.nrow>div{flex:1;min-width:0}.nrow b{display:block;font-size:13px}.nrow span{display:block;color:var(--muted);font-size:12.5px}.nrow small{display:block;color:var(--muted);font-size:11.5px}
+.pal-wrap{position:fixed;inset:0;z-index:70;display:flex;justify-content:center;align-items:flex-start;padding-top:12vh;background:rgba(5,18,28,.55);backdrop-filter:blur(4px);animation:fade .15s}
+@keyframes fade{from{opacity:0}}
+.pal{width:min(620px,92vw);background:var(--card);border:1px solid var(--line);border-radius:18px;box-shadow:0 30px 80px -20px rgba(0,0,0,.6),var(--glow);overflow:hidden;animation:pop .18s}
+.pal input{width:100%;border:0;border-bottom:1px solid var(--line);border-radius:0;padding:18px 20px;font-size:17px;background:transparent;box-shadow:none}
+.pal input:focus{box-shadow:none}
+.pal-list{max-height:380px;overflow-y:auto;padding:8px}
+.pal-item{display:flex;align-items:center;gap:12px;width:100%;border:0;background:none;text-align:left;padding:10px 12px;border-radius:10px;cursor:pointer;color:inherit}
+.pal-item.on{background:var(--soft);box-shadow:inset 3px 0 0 var(--accent)}
+.pal-item small{margin-left:auto;color:var(--muted);font-size:12px}
+.pal-foot{display:flex;gap:16px;padding:10px 16px;border-top:1px solid var(--line);color:var(--muted);font-size:12px}
+.dz{display:flex;flex-direction:column;align-items:center;gap:6px;text-align:center;padding:30px 16px;border:2px dashed var(--line);border-radius:16px;cursor:pointer;color:var(--muted);transition:all .2s;background:color-mix(in srgb,var(--soft) 40%,transparent)}
+.dz .ic svg{width:34px;height:34px;color:var(--brand)}
+.dz:hover,.dz:focus-visible,.dz.over{border-color:var(--accent);box-shadow:var(--glow);background:color-mix(in srgb,var(--accent) 8%,var(--card));outline:none}
+.dz.has{border-style:solid;border-color:var(--ok)}
+.dz-t{display:flex;flex-direction:column}.dz-t b{color:var(--ink)}.dz-input{display:none}
+.dropveil{position:fixed;inset:0;z-index:80;display:flex;gap:12px;align-items:center;justify-content:center;background:rgba(1,186,239,.12);backdrop-filter:blur(3px);border:3px dashed var(--accent);color:var(--brand);font:600 26px Outfit,sans-serif;pointer-events:none}
+.dropveil .ic svg{width:34px;height:34px}
+.tour{position:fixed;inset:0;z-index:90;display:grid;place-items:center}
+.tour-back{position:absolute;inset:0;background:rgba(5,18,28,.6);backdrop-filter:blur(4px)}
+.tour-card{position:relative;width:min(460px,92vw);background:var(--card);border:1px solid var(--line);border-radius:20px;padding:30px;text-align:center;box-shadow:0 30px 80px -20px rgba(0,0,0,.6),var(--glow);animation:pop .25s}
+.tour-ic{width:64px;height:64px;margin:0 auto 14px;border-radius:18px;display:grid;place-items:center;background:linear-gradient(135deg,var(--brand),var(--accent));color:#fff;box-shadow:0 0 30px -4px var(--accent)}
+.tour-ic .ic svg{width:30px;height:30px}
+.tour-card h2{font-size:22px;margin-bottom:8px}.tour-card p{color:var(--muted);margin:0 0 18px}
+.dots{display:flex;gap:6px;justify-content:center;margin-bottom:18px}
+.dots i{width:7px;height:7px;border-radius:50%;background:var(--line);transition:all .2s}
+.dots i.on{width:22px;border-radius:6px;background:var(--accent);box-shadow:0 0 10px var(--accent)}
+.tour-actions{display:flex;gap:8px;justify-content:center}
+.dash{display:grid;grid-template-columns:minmax(0,2fr) minmax(290px,1fr);gap:16px;align-items:start}
+.dash .col{display:grid;gap:16px}.dash .card{margin:0}
+.qa{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:18px}
+.chart svg{width:100%;height:auto}.chart text{fill:var(--muted);font:11px Inter,system-ui,sans-serif}
+.chart .bar{transition:filter .15s}.chart .bar:hover{filter:drop-shadow(0 0 7px var(--accent))}
+.legend{display:flex;gap:16px;font-size:12px;color:var(--muted);margin-top:6px}
+.legend i{display:inline-block;width:9px;height:9px;border-radius:3px;margin-right:6px}
+.att{display:flex;gap:12px;align-items:center;padding:11px 0;border-top:1px solid var(--line)}
+.att:first-of-type{border-top:0}.att .ic svg{width:20px;height:20px;color:var(--brand)}.att>div{flex:1}
+.rw{display:flex;align-items:center;gap:12px;padding:10px 6px;border:0;border-top:1px solid var(--line);width:100%;background:none;text-align:left;cursor:pointer;color:inherit;border-radius:8px}
+.rw:hover{background:color-mix(in srgb,var(--soft) 70%,transparent)}.rw.static{cursor:default}.rw-m{flex:1;min-width:0;display:flex;flex-direction:column}
+.rw-m strong{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pc{display:flex;gap:10px;align-items:center}
+.avstack{display:flex;margin-bottom:10px}.avstack .av{margin-left:-6px;box-shadow:0 0 0 3px var(--card)}.avstack .av:first-child{margin-left:0}
+.who2{display:flex;align-items:center;gap:6px}.msg.me .who2{justify-content:flex-end}
+.mem .av{box-shadow:0 0 0 3px var(--soft)}
+.lg{display:grid;grid-template-columns:minmax(0,1fr) 470px;min-height:100vh;position:relative;overflow-x:clip}
+.lg-theme{position:fixed;top:16px;right:16px;z-index:5;background:var(--card);border:1px solid var(--line)}
+.lg-main{padding:0 clamp(24px,5vw,80px) 90px}
+.hero{position:relative;min-height:94vh;display:flex;flex-direction:column;justify-content:center;gap:18px}
+.hero>*:not(.orb){position:relative;z-index:1}
+.orb{position:absolute;border-radius:50%;filter:blur(72px);opacity:.34;pointer-events:none;animation:drift 14s ease-in-out infinite alternate}
+.o1{width:380px;height:380px;background:#01BAEF;top:6%;left:-8%}
+.o2{width:460px;height:460px;background:#0B4F6C;bottom:-10%;right:0;animation-delay:-6s;opacity:.26}
+@keyframes drift{to{transform:translate(50px,-40px) scale(1.12)}}
+.badge{display:inline-flex;align-items:center;gap:8px;align-self:flex-start;border:1px solid var(--line);background:var(--card);border-radius:999px;padding:5px 14px;font-size:13px;color:var(--muted)}
+.badge i{width:8px;height:8px;border-radius:50%;background:var(--accent);box-shadow:0 0 10px var(--accent)}
+.word{font-size:clamp(56px,8vw,108px);line-height:1;display:flex;letter-spacing:-.03em;color:var(--ink)}
+.word span{opacity:0;transform:translateY(26px);display:inline-block;animation:letter .7s cubic-bezier(.2,.8,.2,1) forwards;animation-delay:calc(var(--i)*70ms + 150ms)}
+.word span:nth-child(n+6){color:var(--brand);text-shadow:0 0 30px rgba(1,186,239,.5)}
+@keyframes letter{to{opacity:1;transform:none}}
+.quote{min-height:2.2em;font:500 clamp(20px,2.2vw,28px)/1.3 Outfit,sans-serif;color:var(--brand);margin:0;transition:opacity .45s,transform .45s}
+.quote.out{opacity:0;transform:translateY(8px)}
+.lead{max-width:56ch;color:var(--muted);font-size:17px;margin:0}
+.scrollhint{display:flex;align-items:center;gap:12px;color:var(--muted);font-size:13px;margin-top:22px}
+.scrollhint i{width:20px;height:30px;border:2px solid var(--line);border-radius:11px;position:relative;display:inline-block}
+.scrollhint i::after{content:"";position:absolute;left:50%;top:5px;width:3px;height:7px;margin-left:-1.5px;background:var(--accent);border-radius:2px;animation:wheel 1.6s infinite}
+@keyframes wheel{50%{transform:translateY(8px);opacity:.2}}
+.lg-sec{display:flex;gap:20px;align-items:flex-start;background:var(--card);border:1px solid var(--line);border-radius:18px;padding:26px;margin-bottom:22px;max-width:780px;box-shadow:var(--shadow);position:relative;opacity:0;transform:translateY(28px);transition:opacity .7s ease,transform .7s ease,box-shadow .25s,border-color .25s}
+.lg-sec.in{opacity:1;transform:none}
+.lg-sec>div:last-child{min-width:0}
+.lg-ic{width:54px;height:54px;border-radius:16px;flex:none;display:grid;place-items:center;background:linear-gradient(135deg,var(--brand),var(--accent));color:#fff;box-shadow:0 0 28px -6px var(--accent)}
+.lg-ic .ic svg{width:26px;height:26px}
+.lg-sec h2{font-size:22px;margin-bottom:6px}.lg-sec p{margin:0 0 10px;color:var(--muted)}
+.mini-roles{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:8px}
+.mini-roles div{border:1px solid var(--line);border-radius:12px;padding:10px 12px;background:var(--soft)}
+.mini-roles b{display:block}.mini-roles span{font-size:12.5px;color:var(--muted)}
+.lg-side{position:sticky;top:0;height:100vh;display:grid;place-items:center;padding:24px}
+.lg-card{width:100%;padding:28px;margin:0}
+.lg-logo{display:flex;align-items:center;gap:10px;font:600 20px Outfit,sans-serif;color:var(--brand);margin-bottom:14px}
+.lg-logo i{width:32px;height:32px;border-radius:10px;background:var(--brand);color:var(--brand-ink);display:grid;place-items:center;font:700 13px Inter,system-ui,sans-serif;font-style:normal}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+<div id="root"></div>
+<script>
+'use strict';
+/* =====================================================================
+   TrustVault on Supabase. Two layers:
+   1. Vault service  - thin calls to the database (supabase.rpc) and Storage.
+                       Every rule is enforced IN THE DATABASE (see schema.sql),
+                       on every call, from stored data - never by this page.
+   2. Screens        - draw the result.
+   ===================================================================== */
+
+/* ---------- your Supabase project ---------- */
+const SUPABASE_URL = 'https://qayskluqsjpgvjorinnc.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFheXNrbHVxc2pwZ3Zqb3Jpbm5jIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTM3NzYzMTQsImV4cCI6MjEwOTM1MjMxNH0.JfEvMy4cafpY0b7PhlQiWYPN-ipWa_7_LaBQv46ZUuU';   // Project Settings -> API -> anon public (safe to publish)
+const CONFIGURED = !/PASTE-YOUR|YOUR-PROJECT/.test(SUPABASE_URL + SUPABASE_ANON_KEY);
+const sb = CONFIGURED ? supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, { auth: { persistSession: true, autoRefreshToken: true } }) : null;
+
+/* ---------- helpers ---------- */
+const enc = new TextEncoder();
+const toB64 = (bytes) => { let s = ''; for (let i = 0; i < bytes.length; i += 0x8000) s += String.fromCharCode.apply(null, bytes.subarray(i, i + 0x8000)); return btoa(s); };
+const fromB64 = (b) => { const s = atob(b); const a = new Uint8Array(s.length); for (let i = 0; i < s.length; i++) a[i] = s.charCodeAt(i); return a; };
+const extOf = (n) => (n.includes('.') ? n.split('.').pop().toLowerCase() : '');
+class Forbidden extends Error {}
+class BadInput extends Error {}
+
+/* ---------- file rules (early feedback; the database enforces the rest) ---------- */
+const KINDS = { txt: 'text/plain', md: 'text/markdown', csv: 'text/csv', json: 'application/json', pdf: 'application/pdf', png: 'image/png' };
+const TEXTY = new Set(['txt', 'md', 'csv', 'json']);
+const LIMIT = 3 * 1024 * 1024;
+const CATEGORIES = ['Contract', 'HR', 'Finance', 'Engineering', 'Audit', 'Other'];
+function vetName(name) {
+  if (typeof name !== 'string' || !/^[\w\-. ()]{1,100}$/.test(name) || name.includes('..') || name.startsWith('.')) throw new BadInput('File name: 1-100 characters; letters, digits, space, dot, dash, underscore and brackets only.');
+  const ext = extOf(name);
+  if (!KINDS[ext]) throw new BadInput(`.${ext} files are not accepted (allowed: ${Object.keys(KINDS).join(', ')}).`);
+  return ext;
+}
+function vetFile(name, bytes, cat) {
+  const ext = vetName(name);
+  if (!bytes.length) throw new BadInput('The file is empty.');
+  if (bytes.length > LIMIT) throw new BadInput('The file is bigger than 3 MB.');
+  if (!CATEGORIES.includes(cat)) throw new BadInput('Choose one of the listed categories.');
+  const head = (sig) => sig.every((b, i) => bytes[i] === b);
+  if (ext === 'pdf' && !head([0x25, 0x50, 0x44, 0x46, 0x2d])) throw new BadInput('The content is not a real PDF.');
+  if (ext === 'png' && !head([0x89, 0x50, 0x4e, 0x47])) throw new BadInput('The content is not a real PNG.');
+  if (TEXTY.has(ext)) {
+    let t; try { t = new TextDecoder('utf-8', { fatal: true }).decode(bytes); } catch { throw new BadInput('The text is not valid UTF-8.'); }
+    if (t.includes('\0')) throw new BadInput('Binary data found inside a text file.');
+    if (ext === 'json') { try { JSON.parse(t); } catch { throw new BadInput('This is not valid JSON.'); } }
+  }
+  return ext;
+}
+
+/* ---------- calling the database ---------- */
+async function rpc(fn, args) {
+  const { data, error } = await sb.rpc(fn, args || {});
+  if (error) {
+    if (error.code === '42501' || error.code === 'PGRST301' || /jwt/i.test(error.message || '')) throw new Forbidden('Your session has ended. Please sign in again.');
+    console.error(error);
+    throw new Error('Server error: ' + (error.message || 'unknown'));
+  }
+  if (data && data.ok === false) throw data.kind === 'invalid' ? new BadInput(data.message) : new Forbidden(data.message);
+  return data;
+}
+
+/* ---------- the Vault service ---------- */
+const Vault = {
+  async signIn(email, pw) {
+    email = String(email || '').trim().toLowerCase();
+    const { error } = await sb.auth.signInWithPassword({ email, password: String(pw || '') });
+    if (error) {
+      const why = /banned/i.test(error.message) ? 'account deactivated' : /confirm/i.test(error.message) ? 'email not confirmed' : /too many|rate/i.test(error.message) ? 'rate limited' : 'wrong email or password';
+      try { await sb.rpc('log_failed_login', { p_email: email, p_reason: why }); } catch { /* logging is best effort */ }
+      if (/banned/i.test(error.message)) throw new Forbidden('This account has been deactivated.');
+      if (/confirm/i.test(error.message)) throw new Forbidden('Please confirm your email address first (check your inbox).');
+      if (/too many|rate/i.test(error.message)) throw new Forbidden('Too many attempts. Wait a few minutes.');
+      throw new Forbidden('Invalid credentials');
+    }
+    try { return await rpc('login_check'); }
+    catch (e) { await sb.auth.signOut({ scope: 'local' }); throw e; }
+  },
+  async signUp(f) {
+    const name = String(f.name || '').trim(), username = String(f.username || '').trim().toLowerCase(), email = String(f.email || '').trim(), pw = String(f.pw || '');
+    if (name.length < 2 || name.length > 60) throw new BadInput('Enter your full name (2-60 characters).');
+    if (!/^[a-z0-9_.-]{3,30}$/.test(username)) throw new BadInput('Username: 3-30 characters of a-z, 0-9, dot, dash or underscore.');
+    if (!/^\S+@\S+\.\S+$/.test(email)) throw new BadInput('Enter a valid email address.');
+    if (!['owner', 'viewer'].includes(f.role)) throw new BadInput('Register as a document owner or a viewer. Administrators are created by administrators.');
+    if (pw.length < 8 || !/[a-zA-Z]/.test(pw) || !/\d/.test(pw)) throw new BadInput('Password: 8+ characters with at least one letter and one digit.');
+    try {
+      const { data: free, error: ue } = await sb.rpc('username_available', { p_username: username });
+      if (!ue && free === false) throw new BadInput('That username is already taken. Please choose another.');
+    } catch (e) { if (e instanceof BadInput) throw e; }
+    const { data, error } = await sb.auth.signUp({ email, password: pw, options: { data: { name, username, role: f.role } } });
+    if (error) {
+      if (/already/i.test(error.message)) throw new BadInput('That email is already registered.');
+      if (/database error/i.test(error.message)) throw new BadInput('That username is taken (or the details are not valid).');
+      throw new BadInput(error.message);
+    }
+    if (data.user && data.user.identities && data.user.identities.length === 0) throw new BadInput('That email is already registered.');
+    await sb.auth.signOut({ scope: 'local' });   // a new account must wait for approval
+  },
+  async signOut() {
+    try { await rpc('logout'); } catch { /* already gone */ }
+    try { await sb.auth.signOut({ scope: 'global' }); } catch { /* ignore */ }
+  },
+  me: () => rpc('me'),
+  directory: () => rpc('directory'),
+  list: (f = {}) => rpc('list_documents', { p_q: f.q || null, p_owner: f.owner || null, p_category: f.category || null, p_from: f.from || null, p_to: f.to || null }),
+  // Files live in the database. Opening, downloading, editing and deleting are server functions that
+  // check access AND write the audit entry together. There is no quiet read and no direct file route.
+  async inspect(id) {
+    const r = await rpc('inspect_document', { p_id: id });
+    return { meta: r.meta, text: r.text == null ? null : r.text, editors: r.editors || [], grants: r.grants, trail: r.trail };
+  },
+  async details(id) {            // no file content, so no READ entry; used to keep an open drawer fresh
+    const r = await rpc('doc_details', { p_id: id });
+    return { meta: r.meta, editors: r.editors || [], grants: r.grants, trail: r.trail };
+  },
+  async download(id) {
+    const r = await rpc('download_document', { p_id: id });
+    return { name: r.name, blob: new Blob([fromB64(r.data)], { type: KINDS[r.ext] }) };
+  },
+  async upload({ name, bytes, category, visibility, editors }) {
+    vetFile(name, bytes, category);          // early feedback only; the server checks everything again
+    if (!['everyone', 'private'].includes(visibility)) throw new BadInput('Pick who can view the document.');
+    const c = await rpc('create_document', { p_name: name, p_category: category, p_visibility: visibility, p_editors: editors || [], p_data: toB64(bytes) });
+    return c.id;
+  },
+  async edit(id, { name, category, text, expected, current }) {
+    vetName(name);
+    if (!CATEGORIES.includes(category)) throw new BadInput('Choose one of the listed categories.');
+    let p_text = null;
+    if (text != null && text !== current) { vetFile(name, enc.encode(text), category); p_text = text; }
+    return rpc('commit_edit', { p_id: id, p_name: name, p_category: category, p_expected: expected, p_text });
+  },
+  async replaceFile(id, name, bytes, expected) {
+    vetFile(name, bytes, 'Other');
+    return rpc('replace_file', { p_id: id, p_expected: expected, p_data: toB64(bytes) });
+  },
+  remove: (id) => rpc('remove_document', { p_id: id }),
+  setVisibility: (id, v) => rpc('set_visibility', { p_id: id, p_v: v }),
+  grant: (id, user, perm) => rpc('grant_access', { p_id: id, p_user: user, p_perm: perm }),
+  revoke: (id, user) => rpc('revoke_access', { p_id: id, p_user: user }),
+  /* administrator duties (never document contents) */
+  admin: () => rpc('admin_overview'),
+  decide: (target, approve, owner) => rpc('decide', { p_target: target, p_approve: approve, p_owner: owner || null }),
+  setRole: (target, role) => rpc('set_role', { p_target: target, p_role: role }),
+  setActive: (target, on) => rpc('set_active', { p_target: target, p_on: !!on }),
+  verify: () => rpc('verify_log'),
+  adminLog: (f = {}) => rpc('admin_log', { p_before: f.before || null, p_limit: 100, p_outcome: f.outcome || null, p_action: f.action || null }),
+  helpList: () => rpc('help_list'),
+  helpCreate: (f) => rpc('help_create', { p_subject: f.subject, p_body: f.body, p_category: f.category, p_priority: f.priority }),
+  helpReply: (id, body) => rpc('help_reply', { p_ticket: id, p_body: body }),
+  helpStatus: (id, status) => rpc('help_status', { p_ticket: id, p_status: status }),
+  team: () => rpc('my_team'),
+  adminPeople: () => rpc('admin_people'),
+  assignOwner: (target, owner) => rpc('assign_owner', { p_target: target, p_owner: owner }),
+};
+
+/* ======================= Screens ======================= */
+const root = document.getElementById('root');
+const h = (tag, attrs, ...kids) => {
+  const e = document.createElement(tag);
+  for (const [k, v] of Object.entries(attrs || {})) {
+    if (k.startsWith('on')) e.addEventListener(k.slice(2), v);
+    else if (k === 'class') e.className = v;
+    else if (v === true) e.setAttribute(k, '');
+    else if (v !== false && v != null) e.setAttribute(k, v);
+  }
+  for (const c of kids.flat(2)) if (c != null && c !== false) e.append(c.nodeType ? c : document.createTextNode(String(c)));
+  return e;
+};
+const when = (s) => (s ? new Date(s).toLocaleString() : '-');
+const size = (n) => (n < 1024 ? `${n} B` : n < 1048576 ? `${(n / 1024).toFixed(1)} KB` : `${(n / 1048576).toFixed(2)} MB`);
+
+/* ---------- icons, toasts ---------- */
+const ICONS = {
+  docs: '<path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h4"/>',
+  upload: '<path d="M12 16V4m0 0L8 8m4-4 4 4M4 16v3a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-3"/>',
+  admin: '<path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/><path d="M9 12l2 2 4-4"/>',
+  roles: '<circle cx="9" cy="8" r="3"/><path d="M3 20a6 6 0 0 1 12 0M16 5.5a3 3 0 0 1 0 5M18 20a5 5 0 0 0-3-4.6"/>',
+  clock: '<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',
+};
+ICONS.users = ICONS.roles; ICONS.team = ICONS.roles; ICONS.shield = ICONS.admin;
+Object.assign(ICONS, {
+  home: '<path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/><path d="M10 20v-6h4v6"/>',
+  sun: '<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>',
+  moon: '<path d="M21 13A9 9 0 1 1 11 3a7 7 0 0 0 10 10z"/>',
+  bell: '<path d="M6 8a6 6 0 0 1 12 0c0 7 3 8 3 8H3s3-1 3-8"/><path d="M10 20a2 2 0 0 0 4 0"/>',
+  search: '<circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/>',
+  left: '<path d="M15 5l-7 7 7 7"/>',
+  right: '<path d="M9 5l7 7-7 7"/>',
+  spark: '<path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z"/>',
+  logout: '<path d="M9 4H5a1 1 0 0 0-1 1v14a1 1 0 0 0 1 1h4"/><path d="M16 17l5-5-5-5M21 12H9"/>',
+});
+
+ICONS.help = '<path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"/><path d="M9 10h6M9 13.5h4"/>';
+const icon = (n) => { const s = h('span', { class: 'ic', 'aria-hidden': 'true' }); s.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">${ICONS[n] || ''}</svg>`; return s; };
+function toast(kind, text) {
+  let box = document.querySelector('.toasts');
+  if (!box) { box = h('div', { class: 'toasts', role: 'status', 'aria-live': 'polite' }); document.body.append(box); }
+  const t = h('div', { class: 'toast ' + kind }, h('b', {}, kind === 'ok' ? 'Done' : kind === 'invalid' ? 'Check this' : 'Not allowed'), ' ', text);
+  box.append(t); setTimeout(() => t.remove(), 4200);
+}
+
+/* ---------- theme, storage, avatars ---------- */
+const store = { get: (k) => { try { return localStorage.getItem(k); } catch { return null; } }, set: (k, v) => { try { localStorage.setItem(k, v); } catch { /* storage unavailable */ } } };
+const theme = () => document.documentElement.getAttribute('data-theme') || 'light';
+function toggleTheme() {
+  const t = theme() === 'dark' ? 'light' : 'dark';
+  document.documentElement.setAttribute('data-theme', t); store.set('tv_theme', t);
+  if (ui.me) draw(); else document.querySelector('.lg-theme')?.replaceChildren(icon(t === 'dark' ? 'sun' : 'moon'));
+}
+const greet = () => { const x = new Date().getHours(); return x < 12 ? 'Good morning' : x < 18 ? 'Good afternoon' : 'Good evening'; };
+const avColors = (s) => { let x = 7; for (const c of String(s)) x = (x * 31 + c.charCodeAt(0)) >>> 0; const hue = x % 360; return [`hsl(${hue} 72% 48%)`, `hsl(${(hue + 45) % 360} 78% 36%)`]; };
+const initials = (n) => String(n || '?').trim().split(/\s+/).slice(0, 2).map((w) => w[0]).join('').toUpperCase();
+const av = (name, sz = 34) => { const [a, b] = avColors(name); return h('span', { class: 'av', title: name, style: `--a:${a};--b:${b};width:${sz}px;height:${sz}px;font-size:${Math.round(sz * 0.4)}px` }, initials(name)); };
+const ui = { mini: store.get('tv_mini') === '1', feed: [], anim: true, helpLoaded: false, allDocs: [], help: [], ticket: null, hf: 'all', team: null, adminPeople: null, me: null, tab: 'docs', authMode: 'in', filt: {}, docs: [], people: [], open: null, flash: null, admin: null, adminTab: 'approvals', chain: null, busy: false, askDelete: false, draft: {}, adminLog: null, logf: {} };
+const nameOf = (id) => (ui.people.find((p) => p.id === id) || {}).name || 'unknown user';
+
+async function refresh() {
+  if (!ui.me) return;
+  const m = await Vault.me();
+  if (m.role !== ui.me.role) { ui.me = m; ui.tab = PAGES[m.role][0][0]; ui.open = null; } else ui.me = m;
+  ui.people = await Vault.directory();
+  if (ui.me.role !== 'admin') ui.allDocs = await Vault.list({});
+  if (ui.tab === 'docs') ui.docs = await Vault.list(ui.filt);
+  if ((ui.tab === 'admin' || ui.tab === 'home') && ui.me.role === 'admin') {
+    ui.admin = await Vault.admin();
+    try { ui.adminPeople = await Vault.adminPeople(); } catch (e) { if (e instanceof Forbidden) throw e; }
+  }
+  if ((ui.tab === 'team' || ui.tab === 'home') && ui.me.role === 'owner') ui.team = await Vault.team();
+  try { ui.help = await Vault.helpList(); ui.helpLoaded = true; ui.lastSync = Date.now(); } catch (e) { if (e instanceof Forbidden) throw e; ui.help = null; }
+  if (ui.me.role === 'admin' && ui.tab === 'admin' && ui.adminTab === 'activity' && !ui.adminLog) ui.adminLog = await Vault.adminLog(ui.logf);
+  if (ui.open) {
+    try {
+      const d = await Vault.details(ui.open.meta.id);
+      if (d.meta.version !== ui.open.meta.version) { ui.open = null; toast('invalid', 'This document was changed by someone else. Open it again.'); }
+      else ui.open = { ...d, text: ui.open.text };
+    } catch { ui.open = null; }
+  }
+}
+function fail(e) {
+  const ended = e instanceof Forbidden && /session has ended/.test(e.message);
+  ui.flash = { kind: e instanceof BadInput ? 'invalid' : 'denied', head: e instanceof Forbidden ? 'Not allowed' : e instanceof BadInput ? 'Check this' : 'Error', text: e.message };
+  if (ui.me) toast(ui.flash.kind, e.message);
+  if (ended) { ui.me = null; ui.open = null; sb.auth.signOut({ scope: 'local' }).catch(() => {}); }
+}
+async function run(fn, okText) {
+  if (ui.busy) return;
+  ui.busy = true; ui.flash = null; document.body.classList.add('busy');
+  try { await fn(); if (okText) { ui.flash = { kind: 'ok', head: 'Done', text: okText }; if (ui.me) toast('ok', okText); } }
+  catch (e) { fail(e); }
+  try { await refresh(); } catch (e) { if (!ui.flash || ui.flash.kind === 'ok') fail(e); }
+  ui.busy = false; document.body.classList.remove('busy'); draw();
+}
+
+const PAGES = { admin: [['home', 'Dashboard'], ['admin', 'Administration'], ['help', 'Help center'], ['roles', 'Roles']], owner: [['home', 'Dashboard'], ['docs', 'My documents'], ['upload', 'Upload'], ['team', 'My team'], ['help', 'Help desk'], ['roles', 'Roles']], viewer: [['home', 'Dashboard'], ['docs', 'Documents'], ['help', 'Help desk'], ['roles', 'Roles']] };
+const ROLE_INFO = [
+  { t: 'Administrator', tag: 'Runs the place, never reads the files', can: ['Approve or reject new registrations', 'Switch people between viewer and owner', 'Activate or deactivate accounts', 'See a register of documents: names, owners, who has access', 'Review the activity log and verify its integrity', 'Answer help requests from owners'], cannot: ['Open, download, edit or delete document contents', 'Upload documents', 'See a document at all unless an owner shares it with them'] },
+  { t: 'Document owner', tag: 'Owns what they upload', can: ['Upload documents and sort them by category', 'Read, edit (new version each time) and download their own files', 'Choose who can view: everyone, or only picked people', 'Let other owners edit, and take that back', 'Read the audit trail of their own documents', 'See their team and answer its help requests', 'Ask the administrators for help'], cannot: ['Edit or delete someone else’s document (unless given edit access)', 'Delete anything they did not upload'] },
+  { t: 'Viewer', tag: 'Reads what is shared', can: ['See documents visible to everyone', 'See restricted documents shared with them', 'Open and download those documents', 'Ask their owner for help'], cannot: ['Edit, delete, share or upload', 'See restricted documents nobody shared with them'] },
+];
+
+function draw() {
+  root.replaceChildren(ui.me ? appShell() : gate());
+  if (ui.me) { clearInterval(ui.qt); startLive(); maybeTour(); } else { stopLive(); afterGate(); }
+}
+function afterGate() {
+  const els = [...document.querySelectorAll('.rv')];
+  const reveal = () => {
+    if (!els[0] || !els[0].isConnected) { window.removeEventListener('scroll', reveal); window.removeEventListener('resize', reveal); return; }
+    els.forEach((x) => { if (!x.classList.contains('in') && x.getBoundingClientRect().top < innerHeight * 0.92) x.classList.add('in'); });
+  };
+  window.addEventListener('scroll', reveal, { passive: true }); window.addEventListener('resize', reveal); reveal();
+}
+
+/* --- sign in / register --- */
+function gate() {
+  const up = ui.authMode === 'up';
+  const f = (name, label, type = 'text', extra = {}) => h('label', { class: 'fld' }, label, h('input', { name, type, required: true, value: ui.draft[name] || '', oninput: (ev) => { ui.draft[name] = ev.target.value; }, ...extra }));
+  const form = h('form', { class: 'stack', onsubmit: (e) => {
+    e.preventDefault(); const d = Object.fromEntries(new FormData(e.target));
+    ui.draft = { ...d }; if (!up) delete ui.draft.pw;   /* keep what was typed if this attempt fails */
+    run(async () => {
+      if (up) {
+        if (d.pw !== d.pw2) throw new BadInput('The two passwords differ.');
+        await Vault.signUp(d); ui.authMode = 'in'; ui.draft = {};
+        ui.flash = { kind: 'ok', head: 'Request sent', text: 'An administrator has to approve your account before you can sign in.' };
+      } else { ui.me = await Vault.signIn(d.who, d.pw); ui.draft = {}; ui.tab = PAGES[ui.me.role][0][0]; ui.flash = null; }
+    });
+  } },
+    up ? [f('name', 'Full name'), f('username', 'Username'), f('email', 'Email', 'email', { autocomplete: 'email' }),
+      h('label', { class: 'fld' }, 'I am joining as', h('select', { name: 'role', onchange: (ev) => { ui.draft.role = ev.target.value; } }, h('option', { value: 'viewer', selected: ui.draft.role !== 'owner' }, 'Viewer - reads shared documents'), h('option', { value: 'owner', selected: ui.draft.role === 'owner' }, 'Document owner - uploads and shares'))),
+      f('pw', 'Password', 'password', { autocomplete: 'new-password' }), f('pw2', 'Repeat password', 'password', { autocomplete: 'new-password' })]
+      : [f('who', 'Email', 'email', { autocomplete: 'username' }), f('pw', 'Password', 'password', { autocomplete: 'current-password' })],
+    h('button', { class: 'btn pri', type: 'submit', disabled: ui.busy }, up ? 'Request an account' : 'Sign in'),
+    up && h('div', { class: 'sub' }, 'New accounts wait for administrator approval. Administrator accounts cannot be self-registered.'));
+  const quotes = ['Share with exactly the people who should see it.', 'Every attempt is recorded, granted or refused.', 'Administrators run the place. They never read your files.', 'A record that shows what really happened.'];
+  const q = h('p', { class: 'quote' }, quotes[0]); let qi = 0;
+  clearInterval(ui.qt);
+  ui.qt = setInterval(() => {
+    if (!q.isConnected) { clearInterval(ui.qt); return; }
+    q.classList.add('out'); setTimeout(() => { qi = (qi + 1) % quotes.length; q.textContent = quotes[qi]; q.classList.remove('out'); }, 450);
+  }, 4800);
+  const sec = (ic, title, body, extra) => h('section', { class: 'lg-sec rv' }, h('div', { class: 'lg-ic' }, icon(ic)), h('div', {}, h('h2', {}, title), h('p', {}, body), extra || false));
+  return h('div', { class: 'lg' },
+    h('button', { class: 'ghost lg-theme', title: 'Switch theme', 'aria-label': 'Toggle theme', onclick: toggleTheme }, icon(theme() === 'dark' ? 'sun' : 'moon')),
+    h('div', { class: 'lg-main' },
+      h('header', { class: 'hero' }, h('div', { class: 'orb o1' }), h('div', { class: 'orb o2' }),
+        h('span', { class: 'badge' }, h('i', {}), 'Secure document sharing'),
+        h('h1', { class: 'word', 'aria-label': 'TrustVault' }, [...'TrustVault'].map((c, i) => h('span', { style: `--i:${i}`, 'aria-hidden': 'true' }, c))),
+        q, h('p', { class: 'lead' }, 'One place to share documents with exactly the right people, with an honest record of every attempt.'),
+        h('div', { class: 'scrollhint' }, h('i', {}), 'Scroll to see how it works')),
+      sec('docs', 'What TrustVault is', 'A private place for sharing documents inside a team. Owners upload files and decide, for each one, whether everyone may see it or only the people they pick. Viewers read what has been shared with them. Administrators look after the people.'),
+      sec('roles', 'Three roles, clear limits', 'Everyone has one role, and each role can do only its own job.', h('div', { class: 'mini-roles' }, ROLE_INFO.map((r) => h('div', {}, h('b', {}, r.t), h('span', {}, r.tag))))),
+      sec('admin', 'Protected on the server, not just on the screen', 'Every action is checked again in the database: who you are, what your role is and what the document allows. A hidden button is never the only barrier. File content is checked against its type before it is stored.'),
+      sec('shield', 'A record that shows what really happened', 'Uploads, downloads, edits, sharing changes and refused attempts are all written to an activity log. Each entry is chained to the one before it, so administrators can verify that nothing was quietly altered.'),
+      sec('help', 'Help when you need it', 'Viewers ask their owner, owners ask the administrators, and administrators solve. If a viewer has no owner yet, the page says so and asks them to wait for the administrator.'),
+      sec('clock', 'Ready when you are', 'Sign in on the right, or request an account. An administrator approves every new account, and chooses the owner a new viewer will belong to.')),
+    h('aside', { class: 'lg-side' }, h('div', { class: 'card lg-card' }, h('div', { class: 'lg-logo' }, h('i', {}, 'TV'), 'TrustVault'), h('h2', {}, up ? 'Create an account' : 'Welcome back'),
+      ui.flash && flashBox(), form,
+      h('p', { class: 'sub' }, up ? 'Have an account? ' : 'No account yet? ', h('a', { href: '#', onclick: (e) => { e.preventDefault(); ui.authMode = up ? 'in' : 'up'; ui.flash = null; ui.draft = {}; draw(); } }, up ? 'Sign in' : 'Register')))));
+}
+const flashBox = () => h('div', { class: 'flash ' + ui.flash.kind }, h('b', {}, ui.flash.head + ':'), ui.flash.text);
+
+/* --- shell --- */
+/* ---------- shell: sidebar, top bar, notifications, live updates ---------- */
+function goTo(tab, extra) {
+  ui.tab = tab; ui.open = null; ui.chain = null; ui.flash = null; ui.adminLog = null; if (tab === 'home') ui.anim = true;
+  if (extra) extra();
+  run(async () => {});
+}
+const openDoc = (d) => { ui.tab = 'docs'; ui.chain = null; run(async () => { ui.askDelete = false; ui.open = await Vault.inspect(d.id); }); };
+const signOut = () => run(async () => { await Vault.signOut(); ui.me = null; ui.open = null; ui.authMode = 'in'; });
+const toggleMini = () => { ui.mini = !ui.mini; store.set('tv_mini', ui.mini ? '1' : '0'); draw(); };
+
+function appShell() {
+  const pages = PAGES[ui.me.role];
+  if (!pages.some(([k]) => k === ui.tab)) ui.tab = pages[0][0];
+  const titles = { docs: ['Documents', 'Everything you are allowed to see.'], upload: ['Upload', 'Add a document and decide who can reach it.'], admin: ['Administration', 'People, the document register and the activity log.'], roles: ['Roles', 'What each kind of account can and cannot do.']};
+  titles.help = ui.me.role === 'admin' ? ['Help center', 'Requests from owners. Reply and mark them solved.'] : ui.me.role === 'owner' ? ['Help desk', 'Ask the administrators for help, and answer your team.'] : ['Help desk', 'Ask your owner for help and follow your requests.'];
+  titles.team = ['My team', 'The viewers who belong to you.'];
+  titles.home = [`${greet()}, ${ui.me.name.split(' ')[0]}`, new Date().toLocaleDateString(undefined, { weekday: 'long', day: 'numeric', month: 'long' }) + ' - here is where things stand.'];
+  const view = { home: homePage, docs: docsPage, upload: uploadPage, admin: adminPage, roles: rolesPage, help: helpPage, team: teamPage }[ui.tab]();
+  return h('div', { class: 'app' + (ui.mini ? ' mini' : '') },
+    h('aside', { class: 'side' },
+      h('div', { class: 'logo' }, h('i', {}, 'TV'), h('span', { class: 'lt' }, 'TrustVault'),
+        h('button', { class: 'ghost', title: ui.mini ? 'Expand sidebar' : 'Collapse sidebar', 'aria-label': 'Toggle sidebar', onclick: toggleMini }, icon(ui.mini ? 'right' : 'left'))),
+      h('nav', { class: 'nav' }, pages.map(([k, t]) => h('button', { class: k === ui.tab ? 'on' : '', 'data-k': k, title: t, onclick: () => goTo(k) }, icon(k), h('span', { class: 'nt' }, t), k === 'help' && badge()))),
+      h('div', { class: 'who' }, av(ui.me.name, 36), h('div', { class: 'wt' }, h('b', {}, ui.me.name), h('span', {}, ui.me.role)),
+        h('button', { class: 'ghost', title: 'What is new', 'aria-label': 'What is new', onclick: () => openTour() }, icon('spark')),
+        h('button', { class: 'ghost', title: 'Sign out', 'aria-label': 'Sign out', onclick: signOut }, icon('logout')))),
+    h('main', { class: 'main' }, topbar(), h('div', { class: 'head' }, h('h1', {}, titles[ui.tab][0]), h('p', {}, titles[ui.tab][1])), view),
+    ui.open && drawer());
+}
+
+function topbar() {
+  return h('div', { class: 'topbar' },
+    h('button', { class: 'cmdk', onclick: () => openPalette() }, icon('search'), h('span', {}, 'Search or jump to...'), h('kbd', {}, 'Ctrl K')),
+    h('div', { class: 'tb-right' }, h('span', { class: 'live', id: 'live', title: 'Updates itself every 20 seconds' }, h('i', {}), 'Live'),
+      h('button', { class: 'ghost', title: theme() === 'dark' ? 'Switch to light theme' : 'Switch to dark theme', 'aria-label': 'Toggle theme', onclick: toggleTheme }, icon(theme() === 'dark' ? 'sun' : 'moon')),
+      h('div', { class: 'bellwrap', id: 'bellwrap' }, bellButton())));
+}
+
+function notes() {
+  const me = ui.me, out = [];
+  for (const t of ui.help || []) {
+    if (!needsMe(t)) continue;
+    const mine = t.from === me.id;
+    out.push({ who: mine ? (t.to_role === 'admin' ? 'Administrators' : nameOf(t.to)) : nameOf(t.from), title: mine ? 'Replied to your request' : t.priority === 'urgent' ? 'Urgent request' : 'New request', text: t.subject, at: t.updated,
+      go: () => goTo('help', () => { ui.ticket = t.id; ui.hf = 'all'; }) });
+  }
+  if (me.role === 'admin' && ui.admin) {
+    const n = ui.admin.users.filter((u) => !u.approved).length;
+    if (n) out.push({ who: 'Registrations', title: 'Waiting for approval', text: `${n} ${n === 1 ? 'person' : 'people'} waiting`, go: () => goTo('admin', () => { ui.adminTab = 'approvals'; }) });
+  }
+  if (me.role === 'viewer' && !me.owner_id) out.push({ who: 'Administrator', title: 'No owner assigned yet', text: 'Please wait for the administrator.', go: () => goTo('help') });
+  return out;
+}
+const bellButton = () => {
+  const n = notes().length;
+  return h('button', { class: 'ghost bell' + (n ? ' ring' : ''), title: 'Notifications', 'aria-label': `Notifications${n ? ` (${n})` : ''}`, onclick: toggleBell }, icon('bell'), n ? h('span', { class: 'pill' }, n) : false);
+};
+function closeBell() { document.querySelector('.dd')?.remove(); }
+function toggleBell(e) {
+  e.stopPropagation();
+  if (document.querySelector('.dd')) { closeBell(); return; }
+  const items = notes();
+  const row = (n) => h('button', { class: 'nrow', onclick: () => { closeBell(); n.go(); } }, av(n.who, 32),
+    h('div', {}, h('b', {}, n.title), h('span', {}, `${n.who}: ${n.text}`), n.at ? h('small', {}, when(n.at)) : false));
+  const dd = h('div', { class: 'dd', onclick: (ev) => ev.stopPropagation() }, h('h3', {}, 'Needs your attention'),
+    ...(items.length ? items.map(row) : [h('div', { class: 'empty', style: 'border:0;padding:22px' }, icon('admin'), h('b', {}, 'All caught up'), h('span', {}, 'Nothing needs you right now.'))]),
+    ...(ui.feed.length ? [h('h3', {}, 'Earlier in this session'), ...ui.feed.map((f) => h('div', { class: 'nrow static' }, h('div', {}, h('span', {}, f.text), h('small', {}, when(f.at)))))] : []));
+  document.getElementById('bellwrap').append(dd);
+}
+document.addEventListener('click', () => closeBell());
+
+function updateChrome() {
+  const bw = document.getElementById('bellwrap'); if (bw && !bw.querySelector('.dd')) bw.replaceChildren(bellButton());
+  const hb = document.querySelector('.nav [data-k=help]');
+  if (hb) { hb.querySelector('.pill')?.remove(); const b = badge(); if (b) hb.append(b); }
+  const lv = document.getElementById('live'); if (lv && ui.lastSync) lv.title = 'Updated ' + new Date(ui.lastSync).toLocaleTimeString();
+}
+async function poll() {
+  if (!ui.me || ui.busy || document.hidden) return;
+  try {
+    const before = new Map((ui.help || []).map((t) => [t.id, t.messages.length]));
+    const list = await Vault.helpList();
+    for (const t of list) {
+      const prev = before.get(t.id), last = t.messages[t.messages.length - 1];
+      if (last && last.author !== ui.me.id && (prev === undefined ? ui.helpLoaded : t.messages.length > prev)) {
+        const msg = prev === undefined ? `New request from ${nameOf(t.from)}: ${t.subject}` : `New reply from ${nameOf(last.author)}: ${t.subject}`;
+        toast('ok', msg); ui.feed.unshift({ text: msg, at: new Date().toISOString() }); ui.feed.length = Math.min(ui.feed.length, 6);
+      }
+    }
+    ui.help = list; ui.helpLoaded = true;
+    if (ui.me.role === 'admin') ui.admin = await Vault.admin();
+    ui.lastSync = Date.now();
+    const typing = /^(INPUT|TEXTAREA|SELECT)$/.test((document.activeElement || {}).tagName || '');
+    if (!typing && !ui.open && !ui.busy && ['home', 'help', 'team', 'admin'].includes(ui.tab) && !document.querySelector('.pal-wrap,.tour,.dd')) draw(); else updateChrome();
+  } catch { /* offline or session ended: the next action will say so */ }
+}
+function startLive() { if (!ui.poll) ui.poll = setInterval(poll, 20000); }
+function stopLive() { clearInterval(ui.poll); ui.poll = null; }
+
+/* ---------- dashboard ---------- */
+const sumSize = (l) => l.reduce((n, d) => n + (d.size || 0), 0);
+const dayKey = (d) => new Date(d).toDateString();
+const last7 = () => Array.from({ length: 7 }, (_, i) => { const d = new Date(); d.setHours(0, 0, 0, 0); d.setDate(d.getDate() - (6 - i)); return d; });
+function countUp(el, to, ms = 700) {
+  if (!ui.anim || !to) { el.textContent = to; return; }
+  const t0 = performance.now(); el.textContent = 0;
+  const step = (t) => { const k = Math.min(1, (t - t0) / ms); el.textContent = Math.round(to * (1 - Math.pow(1 - k, 3))); if (k < 1 && el.isConnected) requestAnimationFrame(step); else el.textContent = to; };
+  requestAnimationFrame(step);
+}
+function statTile(label, value, ic, c) {
+  const b = h('b', {}, '');
+  if (typeof value === 'number') countUp(b, value); else b.textContent = value;
+  return h('div', { class: 'tile c' + c }, h('i', {}, icon(ic)), h('div', {}, b, h('span', {}, label)));
+}
+function chart(days, names) {
+  const W = 560, H = 176, pad = 26, bw = 36, gap = (W - pad * 2 - bw * days.length) / (days.length - 1);
+  const max = Math.max(1, ...days.map((d) => d.v.reduce((a, b) => a + b, 0)));
+  const cols = ['var(--accent)', 'var(--bad)'];
+  let svg = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${names.join(' and ')}, last 7 days"><line x1="${pad - 8}" x2="${W - pad + 8}" y1="${H - 26}" y2="${H - 26}" style="stroke:var(--line)"/>`;
+  days.forEach((d, i) => {
+    let y = H - 26; const x = pad + i * (bw + gap);
+    d.v.forEach((v, j) => { const hh = Math.round((v / max) * (H - 60)); y -= hh; if (hh) svg += `<rect class="bar" x="${x}" y="${y}" width="${bw}" height="${hh}" rx="6" style="fill:${cols[j]}"><title>${d.label}: ${v} ${names[j]}</title></rect>`; });
+    svg += `<text x="${x + bw / 2}" y="${H - 8}" text-anchor="middle">${d.label}</text>`;
+  });
+  const box = h('div', { class: 'chart' }); box.innerHTML = svg + '</svg>'; return box;
+}
+function homePage() {
+  const me = ui.me, role = me.role, docs = ui.allDocs || [], help = ui.help || [];
+  const openN = help.filter((t) => t.status !== 'resolved').length, need = help.filter(needsMe).length;
+  const days = last7(), lab = (d) => d.toLocaleDateString(undefined, { weekday: 'short' });
+  const plural = (n, a, b) => `${n} ${n === 1 ? a : b}`;
+  let tiles, qa, chartCard, listCard; const attn = [];
+  if (role === 'admin') {
+    const a = ui.admin;
+    if (!a) return h('div', { class: 'tiles' }, [0, 1, 2, 3].map(() => h('div', { class: 'tile skel-b' })));
+    const meta = Object.fromEntries((ui.adminPeople || []).map((x) => [x.id, x]));
+    const pending = a.users.filter((u) => !u.approved).length;
+    const noOwner = a.users.filter((u) => u.approved && u.role === 'viewer' && !(meta[u.id] || {}).owner_id).length;
+    tiles = [['Waiting', pending, 'clock', 0], ['People', a.users.filter((u) => u.approved).length, 'users', 1], ['Documents', a.register.length, 'docs', 2], ['Log entries', a.log_count, 'shield', 3]];
+    if (pending) attn.push({ ic: 'clock', text: `${plural(pending, 'registration is', 'registrations are')} waiting for approval`, btn: 'Review', fn: () => goTo('admin', () => { ui.adminTab = 'approvals'; }) });
+    if (need) attn.push({ ic: 'help', text: `${plural(need, 'owner request needs', 'owner requests need')} your reply`, btn: 'Open', fn: () => goTo('help') });
+    if (noOwner) attn.push({ ic: 'users', text: `${plural(noOwner, 'viewer has', 'viewers have')} no owner yet`, btn: 'Assign', fn: () => goTo('admin', () => { ui.adminTab = 'accounts'; }) });
+    const bk = days.map((d) => ({ label: lab(d), v: [0, 0] }));
+    for (const l of a.log) { const i = days.findIndex((d) => dayKey(d) === dayKey(l.ts)); if (i >= 0) bk[i].v[l.outcome === 'DENIED' ? 1 : 0]++; }
+    chartCard = h('div', { class: 'card' }, h('h2', {}, 'Activity, last 7 days'), chart(bk, ['allowed', 'refused']),
+      h('div', { class: 'legend' }, h('span', {}, h('i', { style: 'background:var(--accent)' }), 'Allowed'), h('span', {}, h('i', { style: 'background:var(--bad)' }), 'Refused')));
+    const recent = [...a.log].sort((x, y) => new Date(y.ts) - new Date(x.ts)).slice(0, 6);
+    listCard = h('div', { class: 'card' }, h('h2', {}, 'Recent activity'), ...(recent.length ? recent.map((l) => h('div', { class: 'rw static' }, av(l.actor_name || '?', 30),
+      h('div', { class: 'rw-m' }, h('strong', {}, `${l.actor_name || 'Someone'} · ${String(l.action).toLowerCase()}`), h('span', { class: 'sub' }, `${l.doc_name || ''} ${when(l.ts)}`)),
+      h('span', { class: 'chip ' + l.outcome }, String(l.outcome).toLowerCase()))) : [h('div', { class: 'sub' }, 'No activity yet.')]));
+    qa = [['Review approvals', 'admin', () => { ui.adminTab = 'approvals'; }], ['Open help center', 'help'], ['Activity log', 'admin', () => { ui.adminTab = 'activity'; }]];
+  } else {
+    const mine = docs.filter((d) => d.owner === me.id), team = ui.team || [];
+    tiles = role === 'owner'
+      ? [['My documents', mine.length, 'docs', 1], ['Team members', team.length, 'users', 2], ['Open requests', openN, 'help', 0], ['Storage used', size(sumSize(mine)), 'upload', 3]]
+      : [['Documents I can open', docs.length, 'docs', 1], ['Open requests', openN, 'help', 0], ['My owner', me.owner_id ? nameOf(me.owner_id) : 'Not assigned', 'users', 2], ['Total size', size(sumSize(docs)), 'upload', 3]];
+    if (role === 'viewer' && !me.owner_id) attn.push({ ic: 'clock', text: 'The administrator has not assigned any owner to you yet, so please wait.', btn: 'Help desk', fn: () => goTo('help') });
+    if (need) attn.push({ ic: 'help', text: `${plural(need, 'request needs', 'requests need')} your attention`, btn: 'Open', fn: () => goTo('help') });
+    if (role === 'owner' && !docs.length) attn.push({ ic: 'upload', text: 'Upload your first document to get started.', btn: 'Upload', fn: () => goTo('upload') });
+    if (role === 'viewer' && me.owner_id && !docs.length) attn.push({ ic: 'docs', text: 'Nothing has been shared with you yet. Ask your owner.', btn: 'Ask', fn: () => goTo('help', () => { ui.openAsk = true; }) });
+    const bk = days.map((d) => ({ label: lab(d), v: [0] }));
+    for (const d of docs) { const i = days.findIndex((x) => dayKey(x) === dayKey(d.created)); if (i >= 0) bk[i].v[0]++; }
+    chartCard = h('div', { class: 'card' }, h('h2', {}, 'New documents, last 7 days'), chart(bk, ['new documents']));
+    const recent = [...docs].sort((x, y) => new Date(y.created) - new Date(x.created)).slice(0, 5);
+    listCard = h('div', { class: 'card' }, h('h2', {}, 'Recent documents'), ...(recent.length ? recent.map((d) => h('button', { class: 'rw', onclick: () => openDoc(d) },
+      h('span', { class: 'ft' }, String(d.ext || 'file').toUpperCase()), h('div', { class: 'rw-m' }, h('strong', {}, d.name), h('span', { class: 'sub' }, `${d.category} · ${size(d.size)} · ${when(d.created)}`)), icon('right')))
+      : [h('div', { class: 'sub' }, 'No documents yet.')]));
+    qa = role === 'owner' ? [['Upload a document', 'upload'], ['Open help desk', 'help'], ['My team', 'team']] : [['Browse documents', 'docs'], ['Ask for help', 'help', () => { ui.openAsk = true; }]];
+  }
+  const attnCard = h('div', { class: 'card' }, h('h2', {}, 'Needs your attention'), ...(attn.length
+    ? attn.map((x) => h('div', { class: 'att' }, icon(x.ic), h('div', {}, x.text), h('button', { class: 'btn sm', onclick: x.fn }, x.btn)))
+    : [h('div', { class: 'att' }, icon('admin'), h('div', {}, 'You are all caught up. Nothing needs you right now.'))]));
+  const team = ui.team || [];
+  const whoCard = role === 'owner' ? h('div', { class: 'card' }, h('h2', {}, 'My team'), ...(team.length
+    ? [h('div', { class: 'avstack' }, team.slice(0, 6).map((m) => av(m.name, 40))), h('p', { class: 'sub' }, team.map((m) => m.name).join(', ')), h('button', { class: 'btn sm', onclick: () => goTo('team') }, 'View team')]
+    : [h('p', { class: 'sub' }, 'No team members yet. The administrator assigns viewers to you.')]))
+    : role === 'viewer' ? h('div', { class: 'card' }, h('h2', {}, 'My owner'), ...(me.owner_id
+      ? [h('div', { class: 'rw static' }, av(nameOf(me.owner_id), 40), h('div', { class: 'rw-m' }, h('strong', {}, nameOf(me.owner_id)), h('span', { class: 'sub' }, 'Your requests go to them')), h('button', { class: 'btn sm', onclick: () => goTo('help', () => { ui.openAsk = true; }) }, 'Ask'))]
+      : [h('p', { class: 'sub' }, 'No owner assigned yet.')])) : false;
+  const out = h('div', {}, h('div', { class: 'qa' }, qa.map(([t, tab, fn], i) => h('button', { class: 'btn' + (i === 0 ? ' pri' : ''), onclick: () => goTo(tab, fn) }, t))),
+    h('div', { class: 'tiles' }, tiles.map(([l, v, ic, c]) => statTile(l, v, ic, c))),
+    h('div', { class: 'dash' }, h('div', { class: 'col' }, chartCard, listCard), h('div', { class: 'col' }, attnCard, whoCard)));
+  setTimeout(() => { ui.anim = false; }, 80);
+  return out;
+}
+
+/* ---------- command palette (Ctrl + K) ---------- */
+function closePalette() { document.querySelector('.pal-wrap')?.remove(); }
+function openPalette() {
+  if (!ui.me || document.querySelector('.pal-wrap')) return;
+  const role = ui.me.role, dark = theme() === 'dark';
+  const all = [
+    ...PAGES[role].map(([k, t]) => ({ ic: k, label: `Go to ${t}`, hint: 'Page', fn: () => goTo(k) })),
+    ...(role === 'owner' ? [{ ic: 'upload', label: 'Upload a document', hint: 'Action', fn: () => goTo('upload') }] : []),
+    ...(role !== 'admin' ? [{ ic: 'help', label: 'Raise a help request', hint: 'Action', fn: () => goTo('help', () => { ui.openAsk = true; }) }] : []),
+    { ic: dark ? 'sun' : 'moon', label: dark ? 'Switch to light theme' : 'Switch to dark theme', hint: 'Action', fn: toggleTheme },
+    { ic: ui.mini ? 'right' : 'left', label: ui.mini ? 'Expand the sidebar' : 'Collapse the sidebar', hint: 'Action', fn: toggleMini },
+    { ic: 'spark', label: 'What is new: take the tour', hint: 'Action', fn: () => openTour() },
+    { ic: 'logout', label: 'Sign out', hint: 'Action', fn: signOut },
+    ...(ui.allDocs || []).map((d) => ({ ic: 'docs', label: d.name, hint: `Document · ${d.category}`, fn: () => openDoc(d) })),
+    ...(role === 'admin' ? ui.people.filter((p) => p.role !== 'admin').map((p) => ({ avn: p.name, label: p.name, hint: `${p.role} · @${p.username}`, fn: () => goTo('admin', () => { ui.adminTab = 'accounts'; }) })) : []),
+    ...(role === 'owner' ? (ui.team || []).map((m) => ({ avn: m.name, label: m.name, hint: 'Team member', fn: () => goTo('team') })) : []),
+  ];
+  let sel = 0, shown = all;
+  const list = h('div', { class: 'pal-list', role: 'listbox' });
+  const input = h('input', { placeholder: 'Type a page, document or person...', 'aria-label': 'Command palette', autocomplete: 'off' });
+  const pick = (it) => { closePalette(); it.fn(); };
+  const mark = () => { [...list.children].forEach((c, i) => c.classList.toggle('on', i === sel)); list.children[sel]?.scrollIntoView({ block: 'nearest' }); };
+  const paint = () => list.replaceChildren(...(shown.length ? shown.slice(0, 40).map((it, i) => h('button', { class: 'pal-item' + (i === sel ? ' on' : ''), role: 'option', onmouseenter: () => { sel = i; mark(); }, onclick: () => pick(it) },
+    it.avn ? av(it.avn, 28) : icon(it.ic), h('span', {}, it.label), h('small', {}, it.hint))) : [h('div', { class: 'sub', style: 'padding:18px' }, 'Nothing matches that.')]));
+  input.addEventListener('input', () => { const w = input.value.toLowerCase().split(/\s+/).filter(Boolean); shown = all.filter((it) => w.every((x) => `${it.label} ${it.hint}`.toLowerCase().includes(x))); sel = 0; paint(); });
+  input.addEventListener('keydown', (e) => {
+    const n = Math.min(shown.length, 40);
+    if (e.key === 'ArrowDown') { e.preventDefault(); sel = Math.min(sel + 1, n - 1); mark(); }
+    else if (e.key === 'ArrowUp') { e.preventDefault(); sel = Math.max(sel - 1, 0); mark(); }
+    else if (e.key === 'Enter' && shown[sel]) { e.preventDefault(); pick(shown[sel]); }
+  });
+  const wrap = h('div', { class: 'pal-wrap', onmousedown: (e) => { if (e.target === wrap) closePalette(); } }, h('div', { class: 'pal', role: 'dialog', 'aria-modal': 'true', 'aria-label': 'Command palette' }, input, list,
+    h('div', { class: 'pal-foot' }, h('span', {}, h('kbd', {}, '↑'), ' ', h('kbd', {}, '↓'), ' move'), h('span', {}, h('kbd', {}, 'Enter'), ' open'), h('span', {}, h('kbd', {}, 'Esc'), ' close'))));
+  document.body.append(wrap); paint(); input.focus();
+}
+
+/* ---------- what's new tour ---------- */
+function tourSteps() {
+  const r = ui.me.role;
+  return [
+    { ic: 'home', t: 'Welcome to the new TrustVault', p: 'Your dashboard shows what needs you today: requests to answer, documents added and a quick view of activity.' },
+    { ic: 'search', t: 'Jump anywhere with Ctrl + K', p: 'Press Ctrl and K to search pages, documents and people, switch the theme or raise a help request without touching the mouse.' },
+    r === 'owner' ? { ic: 'upload', t: 'Drop files to upload', p: 'Drag a file anywhere on the page and the upload form opens with it ready. Then pick a category and who may view it.' }
+      : r === 'admin' ? { ic: 'admin', t: 'Everything in one place', p: 'Approve new people and assign viewers to an owner, watch the activity chart and verify that the audit trail is untouched.' }
+        : { ic: 'docs', t: 'Your documents', p: 'Everything shared with you is on the Documents page. Open one to read it, download it and see who owns it.' },
+    { ic: 'bell', t: 'Live notifications', p: 'The bell shows what needs you. TrustVault checks for news every 20 seconds and tells you when something arrives.' },
+    r === 'admin' ? { ic: 'help', t: 'Help Center', p: 'Owners raise requests to you. Reply, then mark them solved. You never see the chats between viewers and their owners.' }
+      : { ic: 'help', t: 'Help desk', p: r === 'owner' ? 'Answer your team here and raise a request to the administrators when you are stuck.' : 'Ask your owner for help here. If no owner is assigned yet, the administrator has to assign one first.' },
+    { ic: 'moon', t: 'Make it yours', p: 'Switch between light and dark with the moon button, and collapse the sidebar with the arrow to give your documents more room.' },
+  ];
+}
+function openTour() {
+  if (document.querySelector('.tour') || !ui.me) return;
+  const steps = tourSteps(); let i = 0;
+  const wrap = h('div', { class: 'tour', role: 'dialog', 'aria-modal': 'true', 'aria-label': 'What is new' });
+  const finish = () => { store.set('tv_tour_' + ui.me.id, '1'); wrap.remove(); document.removeEventListener('keydown', onKey); };
+  const go = (d) => { i = Math.max(0, Math.min(steps.length - 1, i + d)); paint(); };
+  const onKey = (e) => { if (e.key === 'Escape') finish(); else if (e.key === 'ArrowRight') go(1); else if (e.key === 'ArrowLeft') go(-1); };
+  const paint = () => {
+    const s = steps[i], last = i === steps.length - 1;
+    wrap.replaceChildren(h('div', { class: 'tour-back', onclick: finish }), h('div', { class: 'tour-card' }, h('div', { class: 'tour-ic' }, icon(s.ic)), h('h2', {}, s.t), h('p', {}, s.p),
+      h('div', { class: 'dots' }, steps.map((_, k) => h('i', { class: k === i ? 'on' : '' }))),
+      h('div', { class: 'tour-actions' }, h('button', { class: 'btn', onclick: finish }, 'Skip'), i > 0 && h('button', { class: 'btn', onclick: () => go(-1) }, 'Back'),
+        h('button', { class: 'btn pri', onclick: () => (last ? finish() : go(1)) }, last ? 'Done' : 'Next'))));
+    wrap.querySelector('.btn.pri').focus();
+  };
+  document.addEventListener('keydown', onKey); document.body.append(wrap); paint();
+}
+function maybeTour() {
+  if (ui.tourFor === ui.me.id || store.get('tv_tour_' + ui.me.id)) return;
+  ui.tourFor = ui.me.id; setTimeout(() => { if (ui.me) openTour(); }, 700);
+}
+
+/* ---------- drag and drop upload ---------- */
+function dropzone() {
+  const input = h('input', { type: 'file', name: 'file', class: 'dz-input' });
+  const label = h('div', { class: 'dz-t' });
+  const show = () => {
+    const f = input.files[0];
+    label.replaceChildren(...(f ? [h('b', {}, f.name), h('span', { class: 'sub' }, `${size(f.size)}${f.size > 3145728 ? ' - too large (max 3 MB)' : ''}`)] : [h('b', {}, 'Drag a file here'), h('span', { class: 'sub' }, 'or click to browse. Up to 3 MB.')]));
+    zone.classList.toggle('has', !!f);
+  };
+  const zone = h('div', { class: 'dz', tabindex: '0', role: 'button', 'aria-label': 'Choose or drop a file',
+    onclick: () => input.click(), onkeydown: (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); input.click(); } },
+    ondragover: (e) => { e.preventDefault(); zone.classList.add('over'); }, ondragleave: () => zone.classList.remove('over'),
+    ondrop: (e) => { e.preventDefault(); zone.classList.remove('over'); if (e.dataTransfer.files[0]) { input.files = e.dataTransfer.files; show(); } } }, icon('upload'), label, input);
+  input.addEventListener('change', show); input.addEventListener('click', (e) => e.stopPropagation());
+  if (ui.dropFile) { const dt = new DataTransfer(); dt.items.add(ui.dropFile); input.files = dt.files; ui.dropFile = null; }
+  show(); return zone;
+}
+let dragDepth = 0;
+const hasFiles = (e) => !!e.dataTransfer && [...(e.dataTransfer.types || [])].includes('Files');
+function showDrop(on) {
+  const v = document.querySelector('.dropveil');
+  if (on && !v) document.body.append(h('div', { class: 'dropveil' }, icon('upload'), ' Drop your file to upload it'));
+  else if (!on && v) v.remove();
+}
+window.addEventListener('dragenter', (e) => { if (hasFiles(e) && ui.me && ui.me.role === 'owner') { dragDepth++; showDrop(true); } });
+window.addEventListener('dragleave', (e) => { if (hasFiles(e)) { dragDepth = Math.max(0, dragDepth - 1); if (!dragDepth) showDrop(false); } });
+window.addEventListener('dragover', (e) => { if (hasFiles(e)) e.preventDefault(); });
+window.addEventListener('drop', (e) => {
+  if (!hasFiles(e)) return;
+  e.preventDefault(); dragDepth = 0; showDrop(false);
+  if (!ui.me || (e.target.closest && e.target.closest('.dz'))) return;
+  if (ui.me.role !== 'owner') { toast('invalid', 'Only document owners can upload files.'); return; }
+  const f = e.dataTransfer.files[0]; if (!f) return;
+  ui.dropFile = f; goTo('upload');
+});
+
+/* ---------- global shortcuts and the glow that follows the pointer ---------- */
+document.addEventListener('keydown', (e) => {
+  if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') { e.preventDefault(); if (ui.me) { if (document.querySelector('.pal-wrap')) closePalette(); else openPalette(); } }
+  else if (e.key === 'Escape') { closePalette(); closeBell(); }
+});
+document.addEventListener('mousemove', (e) => {
+  const t = e.target.closest && e.target.closest('.card,.tile,.doc,.tk,.mem,.lg-sec,.rw');
+  if (!t) return;
+  const r = t.getBoundingClientRect(); t.style.setProperty('--mx', `${e.clientX - r.left}px`); t.style.setProperty('--my', `${e.clientY - r.top}px`);
+}, { passive: true });
+
+/* --- documents --- */
+function docsPage() {
+  const f = ui.filt;
+  const owners = ui.people.filter((p) => p.role === 'owner' && p.approved);
+  const form = h('form', { class: 'bar', onsubmit: (e) => { e.preventDefault(); const d = Object.fromEntries(new FormData(e.target)); ui.filt = d; run(async () => {}); } },
+    h('label', { class: 'fld' }, 'Name contains', h('input', { name: 'q', value: f.q || '' })),
+    h('label', { class: 'fld' }, 'Owner', h('select', { name: 'owner' }, h('option', { value: '' }, 'Anyone'), owners.map((o) => h('option', { value: o.id, selected: String(o.id) === String(f.owner) }, o.name)))),
+    h('label', { class: 'fld' }, 'Category', h('select', { name: 'category' }, h('option', { value: '' }, 'Any'), CATEGORIES.map((c) => h('option', { value: c, selected: c === f.category }, c)))),
+    h('label', { class: 'fld' }, 'From', h('input', { type: 'date', name: 'from', value: f.from || '' })),
+    h('label', { class: 'fld' }, 'To', h('input', { type: 'date', name: 'to', value: f.to || '' })),
+    h('button', { class: 'btn pri', type: 'submit' }, 'Filter'), h('button', { class: 'btn', type: 'button', onclick: () => { ui.filt = {}; run(async () => {}); } }, 'Reset'));
+  const rows = ui.docs.map((d) => h('button', { class: 'doc', onclick: () => run(async () => { ui.askDelete = false; ui.open = await Vault.inspect(d.id); }) },
+    h('span', { class: 'ft' }, d.ext.toUpperCase()),
+    h('span', { class: 'doc-main' }, h('strong', {}, d.name), h('span', { class: 'sub' }, `${nameOf(d.owner)} · ${d.category} · ${size(d.size)} · ${when(d.created)}`)),
+    h('span', { class: 'chip ' + d.access }, d.access)));
+  return h('div', {}, noOwnerNotice(), h('div', { class: 'card' }, form), h('div', { class: 'list' }, rows.length ? rows : h('div', { class: 'empty' }, icon('docs'), h('b', {}, 'No documents here'), h('span', {}, ui.me.role === 'admin' ? 'Administrators see documents only through the register (Administration, Document register).' : 'Nothing matches your filters, or nothing has been shared with you yet.'))));
+}
+function drawer() {
+  const o = ui.open, m = o.meta, own = m.access === 'owner', canEdit = own || m.access === 'edit';
+  const grantable = ui.people.filter((p) => p.id !== ui.me.id && p.active !== false && p.approved);
+  const editor = canEdit && (() => {
+    const form = h('form', { class: 'stack', onsubmit: (e) => {
+      e.preventDefault(); const els = e.target.elements;
+      const nf = els['newfile'] && els['newfile'].files[0];
+      run(async () => {
+        const nt = o.text == null ? null : els['text'].value;
+        const r = await Vault.edit(m.id, { name: els['name'].value, category: els['category'].value, text: nt, expected: m.version, current: o.text });
+        if (r && r.version) { ui.open.meta.version = r.version; if (nt != null) ui.open.text = nt; }
+        if (nf) {
+          if (extOf(nf.name) !== m.ext) throw new BadInput(`Choose a .${m.ext} file.`);
+          const r2 = await Vault.replaceFile(m.id, nf.name, new Uint8Array(await nf.arrayBuffer()), ui.open.meta.version);
+          ui.open.meta.version = r2.version;
+        }
+      }, 'Saved.');
+    } },
+      h('div', { class: 'bar' }, h('label', { class: 'fld' }, 'Name', h('input', { name: 'name', value: m.name, size: 26 })), h('label', { class: 'fld' }, 'Category', h('select', { name: 'category' }, CATEGORIES.map((c) => h('option', { value: c, selected: c === m.category }, c))))),
+      o.text != null && h('textarea', { name: 'text' }, o.text),
+      o.text == null && h('label', { class: 'fld' }, `Replace the file with a new version (optional, .${m.ext}, up to 3 MB)`, h('input', { type: 'file', name: 'newfile', accept: '.' + m.ext })),
+      h('div', {}, h('button', { class: 'btn pri', type: 'submit' }, 'Save changes')));
+    return h('div', { class: 'card' }, h('h2', {}, 'Edit'), form);
+  })();
+  const sharing = own && h('div', { class: 'card' }, h('h2', {}, 'Sharing'),
+    h('form', { class: 'bar', onsubmit: (e) => { e.preventDefault(); run(() => Vault.setVisibility(m.id, e.target.elements.v.value), 'Visibility updated.'); } },
+      h('select', { name: 'v' }, h('option', { value: 'everyone', selected: m.visibility === 'everyone' }, 'Everyone can view'), h('option', { value: 'private', selected: m.visibility === 'private' }, 'Only people I pick')), h('button', { class: 'btn' }, 'Apply')),
+    h('div', { class: 'tw' }, h('table', {}, h('tbody', {}, o.grants.length ? o.grants.map((g) => h('tr', {}, h('td', {}, nameOf(g.user)), h('td', {}, h('span', { class: 'chip ' + g.perm }, g.perm)), h('td', {}, h('button', { class: 'btn sm warn', onclick: () => run(() => Vault.revoke(m.id, g.user), 'Access withdrawn.') }, 'Withdraw')))) : h('tr', {}, h('td', { class: 'sub' }, 'Only you at the moment.'))))),
+    h('form', { class: 'bar', style: 'margin-top:10px', onsubmit: (e) => { e.preventDefault(); const els = e.target.elements; run(() => Vault.grant(m.id, els.who.value, els.perm.value), 'Access granted.'); } },
+      h('select', { name: 'who' }, grantable.map((p) => h('option', { value: p.id }, `${p.name} (${p.role})`))), h('select', { name: 'perm' }, h('option', {}, 'read'), h('option', {}, 'edit')), h('button', { class: 'btn pri' }, 'Grant')),
+    h('div', { class: 'sub' }, 'Edit access can go to document owners only.'));
+  const trail = own && h('div', { class: 'card' }, h('h2', {}, 'Audit trail'), logTable(o.trail, false));
+  return h('div', {}, h('div', { class: 'scrim', onclick: () => { ui.open = null; draw(); } }),
+    h('aside', { class: 'drawer' },
+      h('div', { class: 'bar', style: 'justify-content:space-between;align-items:flex-start' }, h('h2', {}, m.name), h('button', { class: 'btn sm', onclick: () => { ui.open = null; draw(); } }, 'Close')),
+      h('div', { class: 'kv' }, h('span', { class: 'chip ' + m.access }, m.access), h('span', {}, `version ${m.version}`), h('span', {}, m.category), h('span', {}, `owner: ${nameOf(m.owner)}`), h('span', {}, m.visibility === 'everyone' ? 'visible to everyone' : 'restricted'), h('span', {}, size(m.size)), m.modified && h('span', {}, `changed ${when(m.modified)}`)),
+      h('div', { class: 'sub' }, 'Can edit: ' + o.editors.map(nameOf).join(', ')),
+      h('div', { class: 'bar', style: 'margin:12px 0' }, h('button', { class: 'btn pri', onclick: () => run(async () => {
+          const f = await Vault.download(m.id); const url = URL.createObjectURL(f.blob);
+          const a = h('a', { href: url, download: f.name }); document.body.append(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(url), 10000);
+        }, 'Downloaded. The download is in the audit trail.') }, 'Download'),
+        own && (ui.askDelete ? [h('span', { class: 'no' }, 'Delete for everyone?'), h('button', { class: 'btn warn', onclick: () => run(async () => { await Vault.remove(m.id); ui.open = null; ui.askDelete = false; }, 'Document deleted.') }, 'Yes, delete'), h('button', { class: 'btn', onclick: () => { ui.askDelete = false; draw(); } }, 'Keep')] : h('button', { class: 'btn warn', onclick: () => { ui.askDelete = true; draw(); } }, 'Delete'))),
+      o.text != null && !canEdit && h('pre', { class: 'src' }, o.text),
+      o.text == null && !canEdit && h('div', { class: 'sub' }, 'This is a binary file. Use Download to open it.'),
+      editor, sharing, trail));
+}
+function logTable(rows, showDoc = true, max = 80) {
+  if (!rows || !rows.length) return h('div', { class: 'empty' }, 'Nothing recorded yet.');
+  return h('div', { class: 'tw' }, h('table', {}, h('thead', {}, h('tr', {}, ['#', 'When', 'Who', 'Action', showDoc && 'Document', 'Result', 'Detail'].filter(Boolean).map((x) => h('th', {}, x)))),
+    h('tbody', {}, rows.slice(0, max).map((e) => h('tr', {}, h('td', {}, e.seq), h('td', {}, when(e.ts)), h('td', {}, e.actor_name || 'unknown'), h('td', {}, e.action), showDoc && h('td', {}, e.doc_name || ''), h('td', {}, h('span', { class: 'chip ' + e.outcome }, e.outcome)), h('td', {}, e.detail))))));
+}
+
+/* --- upload --- */
+function uploadPage() {
+  const owners = ui.people.filter((p) => p.role === 'owner' && p.approved && p.active && p.id !== ui.me.id);
+  return h('form', { class: 'card stack', onsubmit: (e) => {
+    e.preventDefault(); const els = e.target.elements, file = els.file.files[0];
+    const category = els.category.value, vis = els.vis.value;
+    const editors = [...e.target.querySelectorAll('input[name=ed]:checked')].map((x) => x.value);
+    const pname = els.pname.value.trim(), ptext = els.ptext.value;
+    run(async () => {
+      let name, bytes;
+      if (file && file.size) { name = file.name; bytes = new Uint8Array(await file.arrayBuffer()); }
+      else { name = pname; bytes = enc.encode(ptext); }
+      await Vault.upload({ name, bytes, category, visibility: vis, editors });
+      ui.tab = 'docs'; ui.flash = { kind: 'ok', head: 'Uploaded', text: name };
+    });
+  } },
+    h('div', { class: 'bar' }, h('div', { class: 'fld', style: 'flex-basis:100%' }, 'File', dropzone()), h('label', { class: 'fld' }, 'Category', h('select', { name: 'category' }, CATEGORIES.map((c) => h('option', { value: c, selected: c === 'Other' }, c)))),
+      h('label', { class: 'fld' }, 'Who can view', h('select', { name: 'vis' }, h('option', { value: 'everyone' }, 'Everyone'), h('option', { value: 'private' }, 'Only people I pick')))),
+    h('div', { class: 'fld' }, 'Other owners who may edit it (you always can)', h('div', { class: 'bar' }, owners.length ? owners.map((o) => h('label', {}, h('input', { type: 'checkbox', name: 'ed', value: o.id }), ' ', o.name)) : h('span', {}, 'No other owners yet.'))),
+    h('div', { class: 'fld' }, 'No file? Type a text document instead', h('input', { name: 'pname', placeholder: 'notes.txt' }), h('textarea', { name: 'ptext', placeholder: 'Document text' })),
+    h('div', {}, h('button', { class: 'btn pri', type: 'submit' }, 'Upload')),
+    h('div', { class: 'sub' }, 'Accepted: txt, md, csv, json, pdf, png. Up to 3 MB. The server checks the content against the file type.'));
+}
+
+/* --- administration --- */
+function adminPage() {
+  const a = ui.admin; if (!a) return h('div', { class: 'tiles' }, [0, 1, 2, 3].map(() => h('div', { class: 'tile skel-b' })));
+  const pending = a.users.filter((u) => !u.approved), people = a.users.filter((u) => u.approved);
+  const tiles = h('div', { class: 'tiles' }, [['Waiting', pending.length, 'clock'], ['People', people.length, 'users'], ['Documents', a.register.length, 'docs'], ['Log entries', a.log_count, 'shield']].map(([l, n, ic], i) => h('div', { class: 'tile c' + i }, h('i', {}, icon(ic)), h('div', {}, h('b', {}, n), h('span', {}, l)))));
+  const owners = people.filter((p) => p.role === 'owner' && p.active);
+  const meta = Object.fromEntries((ui.adminPeople || []).map((x) => [x.id, x]));
+  const tabs = [['approvals', 'Approvals'], ['accounts', 'Accounts'], ['register', 'Document register'], ['activity', 'Activity'], ['integrity', 'Integrity']];
+  const nav = h('div', { class: 'seg' }, tabs.map(([k, t]) => h('button', { class: 'btn' + (ui.adminTab === k ? ' on' : ''), onclick: () => { ui.adminTab = k; if (k === 'activity') { ui.adminLog = null; run(async () => {}); } else draw(); } }, t)));
+  const body = {
+    approvals: () => h('div', { class: 'card' }, h('h2', {}, 'Waiting for a decision'), pending.length ? h('div', { class: 'tw' }, h('table', {}, h('tbody', {}, pending.map((u) => {
+      const sel = u.role === 'viewer' ? h('select', {}, h('option', { value: '' }, owners.length ? 'Assign an owner...' : 'No owner exists yet'), owners.map((o) => h('option', { value: o.id }, o.name))) : null;
+      return h('tr', {}, h('td', {}, h('div', { class: 'pc' }, av(u.name, 30), h('div', {}, u.name, h('div', { class: 'sub' }, '@' + u.username)))), h('td', {}, 'wants ' + u.role),
+        h('td', {}, sel || h('span', { class: 'sub' }, 'Owners need no owner')),
+        h('td', {}, h('button', { class: 'btn sm pri', onclick: () => { if (sel && !sel.value) { toast('invalid', 'Choose the owner this viewer will belong to.'); return; } run(() => Vault.decide(u.id, true, sel ? sel.value : null), 'Account approved.'); } }, 'Approve'), ' ',
+          h('button', { class: 'btn sm warn', onclick: () => run(() => Vault.decide(u.id, false), 'Registration rejected and removed.') }, 'Reject')));
+    })))) : h('div', { class: 'empty' }, icon('users'), h('b', {}, 'Nobody is waiting'), h('span', {}, 'New registrations will appear here.'))),
+    accounts: () => h('div', { class: 'card' }, h('h2', {}, 'Accounts'), h('div', { class: 'tw' }, h('table', {}, h('thead', {}, h('tr', {}, ['Person', 'Role', 'Owner / team', 'Status', ''].map((x) => h('th', {}, x)))), h('tbody', {}, people.map((u) => {
+      const isAdmin = u.role === 'admin', m = meta[u.id] || {};
+      const roleSel = h('select', {}, h('option', { value: 'viewer', selected: u.role === 'viewer' }, 'Viewer'), h('option', { value: 'owner', selected: u.role === 'owner' }, 'Document owner'));
+      const ownerSel = u.role === 'viewer' ? h('select', {}, h('option', { value: '' }, 'No owner'), owners.map((o) => h('option', { value: o.id, selected: o.id === m.owner_id }, o.name))) : null;
+      return h('tr', {}, h('td', {}, h('div', { class: 'pc' }, av(u.name, 30), h('div', {}, u.name, h('div', { class: 'sub' }, '@' + u.username)))),
+        h('td', {}, isAdmin ? 'admin' : [roleSel, ' ', h('button', { class: 'btn sm', onclick: () => run(() => Vault.setRole(u.id, roleSel.value), 'Role changed.') }, 'Change')]),
+        h('td', {}, u.role === 'owner' ? `Team of ${m.team || 0}` : u.role === 'viewer' ? [ownerSel, ' ', h('button', { class: 'btn sm', onclick: () => { if (!ownerSel.value) { toast('invalid', 'Choose an owner.'); return; } run(() => Vault.assignOwner(u.id, ownerSel.value), 'Owner assigned.'); } }, 'Assign'), !m.owner_id && h('div', { class: 'sub no' }, 'No owner yet')] : '-'),
+        h('td', {}, u.active ? 'active' : 'deactivated'),
+        h('td', {}, !isAdmin && h('button', { class: 'btn sm ' + (u.active ? 'warn' : ''), onclick: () => run(() => Vault.setActive(u.id, !u.active), u.active ? 'Account deactivated.' : 'Account reactivated.') }, u.active ? 'Deactivate' : 'Reactivate')));
+    }))))),
+    register: () => h('div', { class: 'card' }, h('h2', {}, 'Document register'), h('div', { class: 'sub' }, 'Names and sharing only. Contents are never shown here.'), h('div', { class: 'tw' }, h('table', {}, h('thead', {}, h('tr', {}, ['Name', 'Owner', 'Category', 'Visible to', 'Granted'].map((x) => h('th', {}, x)))),
+      h('tbody', {}, a.register.map((d) => h('tr', {}, h('td', {}, d.name), h('td', {}, nameOf(d.owner)), h('td', {}, d.category), h('td', {}, d.visibility === 'everyone' ? 'everyone except admins' : 'restricted'), h('td', {}, Object.entries(d.acl).map(([u, p]) => `${nameOf(u)} (${p})`).join(', ') || 'nobody'))))))),
+    activity: () => {
+      const L = ui.adminLog, f = ui.logf;
+      const acts = ['LOGIN', 'LOGOUT', 'REGISTER', 'UPLOAD', 'READ', 'DOWNLOAD', 'CHANGE', 'DELETE', 'VISIBILITY', 'PERMISSION_GRANT', 'PERMISSION_REVOKE', 'APPROVE', 'REJECT', 'ROLE_CHANGE', 'ACCOUNT', 'OWNER_ASSIGN', 'VERIFY', 'HELP_NEW', 'HELP_REPLY', 'HELP_STATUS', 'ADMIN_VIEW', 'RATE_LIMIT'];
+      const frm = h('form', { class: 'bar', onsubmit: (e) => { e.preventDefault(); const d = Object.fromEntries(new FormData(e.target)); ui.logf = { outcome: d.outcome || null, action: d.action || null }; ui.adminLog = null; run(async () => {}); } },
+        h('label', { class: 'fld' }, 'Result', h('select', { name: 'outcome' }, h('option', { value: '' }, 'Any'), h('option', { value: 'ALLOWED', selected: f.outcome === 'ALLOWED' }, 'Allowed'), h('option', { value: 'DENIED', selected: f.outcome === 'DENIED' }, 'Refused'))),
+        h('label', { class: 'fld' }, 'Action', h('select', { name: 'action' }, h('option', { value: '' }, 'Any'), acts.map((x) => h('option', { value: x, selected: x === f.action }, x)))),
+        h('button', { class: 'btn pri', type: 'submit' }, 'Filter'), h('button', { class: 'btn', type: 'button', onclick: () => { ui.logf = {}; ui.adminLog = null; run(async () => {}); } }, 'Reset'));
+      return h('div', { class: 'card' }, h('h2', {}, 'Activity log'), frm,
+        L ? [logTable(L.rows, true, Infinity), L.more && h('p', {}, h('button', { class: 'btn', onclick: () => run(async () => { const more = await Vault.adminLog({ ...ui.logf, before: L.rows[L.rows.length - 1].seq }); ui.adminLog = { rows: [...L.rows, ...more.rows], more: more.more }; }) }, 'Load older entries'))]
+          : h('div', { class: 'skel-b card' }));
+    },
+    integrity: () => h('div', { class: 'card' }, h('h2', {}, 'Integrity check'), h('p', { class: 'sub' }, 'Every entry is sealed together with the one before it. Changing or removing any entry breaks the chain from that point on.'),
+      h('button', { class: 'btn pri', onclick: () => run(async () => { ui.chain = await Vault.verify(); }) }, 'Verify now'),
+      ui.chain && h('p', {}, ui.chain.ok ? `Intact: ${ui.chain.checked} entries checked. Head ${ui.chain.head.slice(0, 20)}...` : (ui.chain.truncated ? 'Entries have been removed from the end of the log.' : `Entry #${ui.chain.brokenAt} was altered.`))),
+  }[ui.adminTab]();
+  return h('div', {}, tiles, nav, body);
+}
+
+/* ---------- help desk + team ---------- */
+const needsMe = (t) => t.status !== 'resolved' && (t.from === ui.me.id ? t.status === 'answered' : t.status === 'open');
+const badge = () => { const n = (ui.help || []).filter(needsMe).length; return n ? h('span', { class: 'pill' }, n) : false; };
+const roleOf = (id) => (ui.people.find((p) => p.id === id) || {}).role || '';
+const noOwnerNotice = () => (ui.me.role === 'viewer' && !ui.me.owner_id
+  ? h('div', { class: 'notice' }, icon('clock'), h('div', {}, h('b', {}, 'Waiting for an owner'), h('span', {}, 'The administrator has not assigned any owner to you yet, so please wait.'))) : false);
+const statusText = (t) => (t.status === 'resolved' ? 'Resolved' : t.from === ui.me.id ? (t.status === 'answered' ? 'Reply received' : 'Waiting for reply') : (t.status === 'open' ? 'Needs your reply' : 'You replied'));
+
+function helpPage() {
+  const me = ui.me, T = ui.help, admin = me.role === 'admin';
+  if (T === null) return h('div', { class: 'empty' }, icon('help'), h('b', {}, 'The help desk is not installed yet'), h('span', {}, 'Run help_desk.sql in the Supabase SQL Editor, then reload this page.'));
+  const blocked = me.role === 'viewer' && !me.owner_id;
+  const askOpen = !!ui.openAsk; ui.openAsk = false;
+  const intro = blocked ? noOwnerNotice() : h('div', { class: 'notice ok' }, icon('help'), h('div', {},
+    h('b', {}, admin ? 'Requests from owners' : me.role === 'viewer' ? `Your owner is ${nameOf(me.owner_id)}` : 'Your requests go to the administrators'),
+    h('span', {}, admin ? 'Reply to an owner and mark the request solved when it is done.'
+      : me.role === 'viewer' ? 'Requests you raise go to your owner, who replies here. Viewers cannot contact the administrator directly.'
+      : 'Questions from your team also appear here. Reply to them, or raise a request to the administrators.')));
+  let form = false;
+  if (!admin) {
+    const lab = (text, ctl) => h('label', { class: 'fld' }, text, ctl);
+    const subject = h('input', { maxlength: 120, required: true, placeholder: 'What do you need help with?', disabled: blocked });
+    const category = h('select', { disabled: blocked }, ['General', 'Access', 'Document', 'Upload', 'Account'].map((c) => h('option', { value: c }, c)));
+    const priority = h('select', { disabled: blocked }, h('option', { value: 'normal' }, 'Normal'), h('option', { value: 'urgent' }, 'Urgent'));
+    const body = h('textarea', { maxlength: 2000, required: true, placeholder: 'Describe the problem or request...', disabled: blocked });
+    const frm = h('form', { class: 'stack', onsubmit: (e) => {
+      e.preventDefault();
+      run(async () => { const r = await Vault.helpCreate({ subject: subject.value, body: body.value, category: category.value, priority: priority.value }); ui.ticket = r.id; ui.hf = 'all'; }, 'Request sent.');
+    } }, lab('Subject', subject), h('div', { class: 'bar' }, lab('Category', category), lab('Priority', priority)), lab('Message', body),
+    h('div', {}, h('button', { class: 'btn pri', type: 'submit', disabled: blocked || ui.busy }, 'Send request')));
+    form = h('details', { class: 'card ask', open: T.length === 0 || blocked || askOpen }, h('summary', {}, '+ Raise a request'), frm);
+  }
+  const f = ui.hf || 'all';
+  const pick = { all: () => true, mine: needsMe, open: (t) => t.status !== 'resolved', resolved: (t) => t.status === 'resolved' };
+  const shown = T.filter(pick[f]);
+  const sel = shown.find((t) => t.id === ui.ticket) || shown[0];
+  const tabs = h('div', { class: 'seg' }, [['all', 'All'], ['mine', 'Needs me'], ['open', 'Open'], ['resolved', 'Resolved']].map(([k, l]) =>
+    h('button', { class: 'btn sm' + (f === k ? ' on' : ''), onclick: () => { ui.hf = k; draw(); } }, `${l} (${T.filter(pick[k]).length})`)));
+  const list = h('div', { class: 'tklist' }, shown.length ? shown.map((t) => h('button', {
+    class: 'tk' + (sel && sel.id === t.id ? ' on' : ''), 'data-q': `${t.subject} ${nameOf(t.from)} ${t.category}`.toLowerCase(), onclick: () => { ui.ticket = t.id; draw(); } },
+  needsMe(t) && h('i', { class: 'dot' }), h('span', { class: 'tk-main' }, h('strong', {}, t.subject), h('span', { class: 'sub' }, `${t.from === me.id ? 'You' : nameOf(t.from)} · ${t.category} · ${when(t.updated)}`)),
+  h('span', { class: 'tk-side' }, t.priority === 'urgent' && h('span', { class: 'chip DENIED' }, 'Urgent'), h('span', { class: 'chip' + (needsMe(t) ? ' edit' : t.status === 'resolved' ? ' ALLOWED' : '') }, statusText(t)))))
+    : h('div', { class: 'empty' }, icon('help'), h('b', {}, 'No requests here'), h('span', {}, admin ? 'Requests from owners will appear here.' : 'Raise a request and it will show up here.')));
+  const search = h('input', { type: 'search', placeholder: 'Search requests...', 'aria-label': 'Search requests', oninput: (e) => {
+    const q = e.target.value.toLowerCase(); list.querySelectorAll('.tk').forEach((n) => { n.hidden = !n.dataset.q.includes(q); });
+  } });
+  const thread = sel ? (() => {
+    const mine = sel.from === me.id, done = sel.status === 'resolved';
+    const box = h('textarea', { placeholder: 'Write a reply... (Ctrl+Enter to send)', maxlength: 2000 });
+    const toLine = sel.to_role === 'admin' ? 'the administrators' : nameOf(sel.to);
+    const lock = mine && sel.messages.length && sel.messages[sel.messages.length - 1].author === me.id;   // requester cannot answer their own message
+    const send = () => { if (!box.value.trim()) { toast('invalid', 'Write a reply first.'); return; } run(() => Vault.helpReply(sel.id, box.value), 'Reply sent.'); };
+    box.addEventListener('keydown', (ev) => { if ((ev.ctrlKey || ev.metaKey) && ev.key === 'Enter') { ev.preventDefault(); send(); } });
+    return h('div', { class: 'card thread' },
+      h('div', { class: 'th-head' }, h('div', {}, h('h2', {}, sel.subject), h('div', { class: 'sub' }, `${mine ? 'You' : nameOf(sel.from)} to ${mine ? toLine : 'you'} · ${sel.category} · opened ${when(sel.created)}`)),
+        done ? h('button', { class: 'btn sm', onclick: () => run(() => Vault.helpStatus(sel.id, 'open'), 'Request reopened.') }, 'Reopen')
+          : h('button', { class: 'btn sm pri', onclick: () => run(() => Vault.helpStatus(sel.id, 'resolved'), 'Marked as solved.') }, mine ? 'Close request' : 'Mark solved')),
+      h('div', { class: 'msgs', id: 'msgs' }, sel.messages.map((m) => h('div', { class: 'msg' + (m.author === me.id ? ' me' : '') },
+        h('div', { class: 'who2' }, av(nameOf(m.author), 22), m.author === me.id ? 'You' : nameOf(m.author), h('span', {}, ` ${roleOf(m.author)} · ${when(m.at)}`)), h('div', { class: 'bubble' }, m.body)))),
+      done ? h('div', { class: 'sub' }, 'This request is resolved. Reopen it to continue the conversation.')
+        : lock ? h('div', { class: 'notice ok' }, icon('clock'), h('div', {}, h('b', {}, `Waiting for ${toLine} to reply`), h('span', {}, 'You can add to this request once they have answered.')))
+        : h('div', { class: 'reply' }, box, h('button', { class: 'btn pri', onclick: send }, 'Send reply')));
+  })() : h('div', { class: 'card empty' }, icon('help'), h('b', {}, 'Select a request'), h('span', {}, 'Open one from the list to read the conversation.'));
+  setTimeout(() => { const m = document.getElementById('msgs'); if (m) m.scrollTop = m.scrollHeight; }, 0);
+  return h('div', {}, intro, form, tabs, h('div', { class: 'help' }, h('div', {}, search, list), thread));
+}
+
+function teamPage() {
+  const T = ui.team;
+  if (!T) return h('div', { class: 'tiles' }, [0, 1, 2].map(() => h('div', { class: 'tile skel-b' })));
+  const open = (id) => (ui.help || []).filter((t) => t.from === id && t.status !== 'resolved').length;
+  const tiles = h('div', { class: 'tiles' }, [['Members', T.length, 'users', 1], ['Active', T.filter((m) => m.active).length, 'shield', 2], ['Open requests', T.reduce((n, m) => n + open(m.id), 0), 'help', 0]]
+    .map(([l, n, ic, c]) => h('div', { class: 'tile c' + c }, h('i', {}, icon(ic)), h('div', {}, h('b', {}, n), h('span', {}, l)))));
+  const cards = T.map((m) => h('div', { class: 'card mem' }, av(m.name, 44),
+    h('div', { class: 'mem-main' }, h('strong', {}, m.name), h('span', { class: 'sub' }, `@${m.username} · joined ${new Date(m.joined).toLocaleDateString()}`)),
+    h('span', { class: 'chip ' + (m.active ? 'ALLOWED' : 'DENIED') }, m.active ? 'active' : 'deactivated'),
+    open(m.id) ? h('button', { class: 'btn sm', onclick: () => { const t = (ui.help || []).find((x) => x.from === m.id && x.status !== 'resolved'); ui.tab = 'help'; ui.ticket = t && t.id; ui.hf = 'all'; run(async () => {}); } }, `${open(m.id)} open`)
+      : h('span', { class: 'sub' }, 'No open requests')));
+  return h('div', {}, tiles, T.length ? h('div', { class: 'cols' }, cards)
+    : h('div', { class: 'empty' }, icon('users'), h('b', {}, 'No team members yet'), h('span', {}, 'When the administrator assigns viewers to you, they appear here.')));
+}
+
+/* --- roles --- */
+function rolesPage() {
+  return h('div', {}, h('div', { class: 'cols' }, ROLE_INFO.map((r) => h('div', { class: 'card' }, h('h2', {}, r.t), h('div', { class: 'sub' }, r.tag), h('ul', {}, r.can.map((x) => h('li', {}, x))), h('ul', { class: 'no' }, r.cannot.map((x) => h('li', {}, 'Cannot: ' + x)))))),
+    h('p', { class: 'sub' }, 'Each action re-checks the account, its role and the document’s grants in the database. Refused attempts are logged as well.'));
+}
+
+/* ---------- boot ---------- */
+(async () => {
+  if (!CONFIGURED) {
+    root.append(h('div', { class: 'setup' }, h('div', { class: 'card' }, h('h2', {}, 'One step left'),
+      h('p', {}, 'Open ', h('code', {}, 'index.html'), ' and replace ', h('code', {}, 'PASTE-YOUR-ANON-PUBLIC-KEY-HERE'), ' with the anon public key from Supabase: Project Settings, then API.'))));
+    return;
+  }
+  sb.auth.onAuthStateChange((evt) => { if (evt === 'SIGNED_OUT' && ui.me) { ui.me = null; ui.open = null; draw(); } });
+  try {
+    const { data } = await sb.auth.getSession();
+    if (data.session) { ui.me = await Vault.me(); ui.tab = PAGES[ui.me.role][0][0]; await refresh(); }
+  } catch { ui.me = null; }
+  draw();
+})();
+</script>
+</body>
+</html>

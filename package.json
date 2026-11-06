@@ -1,0 +1,14 @@
+{
+  "name": "trustvault",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "TrustVault: role-based document sharing on Supabase with an audited, tamper-evident trail",
+  "scripts": {
+    "seed": "node scripts/seed.mjs",
+    "test": "node --test tests/api/",
+    "test:db": "bash tests/db/run.sh"
+  },
+  "engines": { "node": ">=20" },
+  "dependencies": { "@supabase/supabase-js": "^2.45.0" }
+}
